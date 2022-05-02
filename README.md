@@ -1,2 +1,2 @@
 # project-1
-ToDo App
+Das wird einmal eine ToDo Web-Applikation ...
