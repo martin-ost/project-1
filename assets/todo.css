@@ -261,7 +261,7 @@ html {
     font-weight: bold;
     font-size: inherit;
     color: var(--theme-font-normal-color);
-    background-color: var(--theme-frame-text-box-color);
+    background-color: var(--theme-background-text-box-color);
     border:1px solid var(--theme-frame-text-box-color);
     width: 90%;
 }
