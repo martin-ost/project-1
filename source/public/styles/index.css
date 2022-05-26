@@ -48,7 +48,6 @@ Fragen:
      */
     --display-overview-actions-bar: grid; /* visible: grid, invisible: none */
     --display-overview-item-list: grid; /* visible: grid, invisible: none */
-    --display-overview-no-items: none; /* visible: grid, invisible: none */
     --display-edit-item: none; /* visible: block, invisible: none */
     --display-info: none; /* visible: grid, invisible: none */
 
@@ -161,7 +160,7 @@ html {
     justify-self: end;
 }
 
-.todo-item-list {
+.todo-item-list-container {
     display: var(--display-overview-item-list);
 }
 
@@ -183,7 +182,7 @@ html {
 }
 
 .todo-item-list-entry-priority {
-    font-size: 0.7rem;
+    font-size: 1rem;
     height: 1rem;
     grid-column: 1;
     grid-row: 2;
@@ -248,7 +247,7 @@ html {
 }
 
 .todo-item-list-no-entry {
-    display: var(--display-overview-no-items);
+    display: grid;
     align-items: center;
     color: var(--theme-font-disabled);
     font-size: 1rem;
@@ -289,7 +288,6 @@ html {
 .todo-edit-item-done {
     display: flex;
     size: 2rem;
-    font-size: 0.7rem;
 }
 
 .todo-edit-item-settings {
@@ -314,7 +312,8 @@ html {
 }
 
 .todo-edit-item-priority {
-    font-size: 0.7rem;
+    align-self: center;
+    font-size: 1rem;
 }
 
 .todo-edit-item-description {
