@@ -174,14 +174,6 @@ html {
     margin: 1rem;
 }
 
-.todo-item-list-entry:hover .todo-item-list-entry-delete {
-    display: block;
-}
-
-.todo-item-list-entry:hover .todo-item-list-entry-edit {
-    display: block;
-}
-
 .todo-item-list-entry-due-date {
     font-weight: bold;
     font-size: 0.7rem;
@@ -230,12 +222,20 @@ html {
     grid-row: 2;
 }
 
+.todo-item-list-entry:hover .todo-item-list-entry-edit {
+    display: block;
+}
+
 .todo-item-list-entry-delete {
     display: none;
     justify-self: end;
     height: 1rem;
     grid-column: 3;
     grid-row: 3;
+}
+
+.todo-item-list-entry:hover .todo-item-list-entry-delete {
+    display: block;
 }
 
 .todo-item-list-entry-created {
