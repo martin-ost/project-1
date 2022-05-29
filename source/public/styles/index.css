@@ -19,39 +19,7 @@ Fragen:
 <object data="assets/delete-light.svg"></object>
 */
 
-:root {
-    /*
-    Display "overview" (with items):
-    --display-overview-actions-bar: grid;
-    --display-overview-item-list: grid;
-    --display-overview-no-items: none;
-    --display-edit-item: none;
-    --display-info: none;
-    Display "empty overview" (without items) :
-    --display-overview-actions-bar: none;
-    --display-overview-item-list: none;
-    --display-overview-no-items: none;
-    --display-edit-item: block;
-    --display-info: none;
-    Display "edit item":
-    --display-overview-actions-bar: none;
-    --display-overview-item-list: none;
-    --display-overview-no-items: none;
-    --display-edit-item: grid;
-    --display-info: none;
-    Display "info":
-    --display-overview-actions-bar: none;
-    --display-overview-item-list: none;
-    --display-overview-no-items: none;
-    --display-edit-item: none;
-    --display-info: grid;
-     */
-    --display-overview-actions-bar: grid; /* visible: grid, invisible: none */
-    --display-overview-item-list: grid; /* visible: grid, invisible: none */
-    --display-edit-item: none; /* visible: block, invisible: none */
-    --display-info: none; /* visible: grid, invisible: none */
-
-    /* Theme: light */
+[data-theme="light"] {
     --theme-background-color: white;
     --theme-font-normal-color: black;
     --theme-font-action-color: blue;
@@ -61,17 +29,18 @@ Fragen:
     --theme-frame-text-box-color: lightgray;
     --theme-background-text-box-color: white;
     --theme-divider-color: black;
+}
 
-    /* Theme: dark
-       --theme-background-color: black;
-       --theme-font-normal-color: lightgray;
-       --theme-font-action-color: skyblue;
-       --theme-font-disabled: gray;
-       --theme-button-font-color: black;
-       --theme-button-background-color: skyblue;
-       --theme-frame-text-box-color: lightgray;
-       --theme-background-text-box-color: #3d3838;
-       --theme-divider-color: lightgray; */
+[data-theme="dark"] {
+    --theme-background-color: black;
+    --theme-font-normal-color: lightgray;
+    --theme-font-action-color: skyblue;
+    --theme-font-disabled: gray;
+    --theme-button-font-color: black;
+    --theme-button-background-color: skyblue;
+    --theme-frame-text-box-color: lightgray;
+    --theme-background-text-box-color: #3d3838;
+    --theme-divider-color: lightgray;
 }
 
 html {
@@ -106,8 +75,8 @@ html {
     font-style: italic;
     background: var(--theme-background-color);
     border-color: var(--theme-background-color);
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    appearance: none;
+    appearance: none;
     appearance: none;
 }
 
@@ -138,9 +107,9 @@ html {
 }
 
 .todo-action-bar {
-    display: var(--display-overview-actions-bar);
+    display: grid;
     align-items: center;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: minmax(0, 10rem) minmax(0, 10rem) minmax(0, 13rem) auto;
     height: 3rem;
 }
 
@@ -158,10 +127,6 @@ html {
 
 .todo-action-bar-add {
     justify-self: end;
-}
-
-.todo-item-list-container {
-    display: var(--display-overview-item-list);
 }
 
 .todo-item-list-entry {
@@ -182,15 +147,23 @@ html {
 }
 
 .todo-item-list-entry-priority {
-    font-size: 1rem;
+    font-size: 0.7rem;
     height: 1rem;
     grid-column: 1;
     grid-row: 2;
 }
 
 .todo-item-list-entry-done {
-    font-size: 0.7rem;
     color: var(--theme-font-disabled);
+    font-size: 0.7rem;
+    height: 1rem;
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.todo-item-list-entry-not-done {
+    color: var(--theme-font-normal-color);
+    font-size: 0.7rem;
     height: 1rem;
     grid-column: 1;
     grid-row: 3;
@@ -255,7 +228,7 @@ html {
 }
 
 .todo-edit-item {
-    display: var(--display-edit-item);
+    display: grid;
     margin: 1rem;
 }
 

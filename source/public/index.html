@@ -22,15 +22,22 @@
         {{#each this}}
             <div class="todo-item-list-entry">
                 <div class="todo-item-list-entry-due-date">
-                    {{dueDate}}
+                    {{dueDateView}}
                 </div>
                 <div class="todo-item-list-entry-priority">
-                    {{priority}}
+                    {{priorityView}}
                 </div>
-                <div class="todo-item-list-entry-done">
-                    <input type="checkbox" id="done-1" name="done" disabled="disabled" checked>
-                    <label for="done-1">Erledigt</label>
-                </div>
+                {{#if done}}
+                    <div class="todo-item-list-entry-done">
+                        <input type="checkbox" id="done-{{id}}" name="done" disabled="disabled" checked>
+                        <label for="done-{{id}}">Erledigt</label>
+                    </div>
+                {{^}}
+                    <div class="todo-item-list-entry-not-done">
+                        <input type="checkbox" id="done-{{id}}" name="done" data-change="done">
+                        <label for="done-{{id}}">Pendent</label>
+                    </div>
+                {{/if}}
                 <div class="todo-item-list-entry-name">
                     {{name}}
                 </div>
@@ -38,16 +45,18 @@
                     {{description}}
                 </div>
                 <div class="todo-item-list-entry-created">
-                    {{creationDate}}
+                    {{creationDateView}}
                 </div>
                 <div class="todo-item-list-entry-edit">
                     <button class="todo-button" type="button">
-                        <img class="todo-button-image" src="assets/edit-light.svg" alt="edit todo entry"/>
+                        <img class="todo-button-image" id="edit-{{id}}" src="assets/edit-light.svg"
+                             data-click="edit" alt="edit todo entry"/>
                     </button>
                 </div>
                 <div class="todo-item-list-entry-delete">
                     <button class="todo-button" type="button">
-                        <img class="todo-button-image" src="assets/delete-light.svg" alt="delete todo entry"/>
+                        <img class="todo-button-image" id="delete-{{id}}" src="assets/delete-light.svg"
+                             data-click="delete" alt="delete todo entry"/>
                     </button>
                 </div>
             </div>
@@ -81,39 +90,42 @@
 </header>
 
 <main>
-    <div class="todo-action-bar">
-        <div class="todo-action-bar-sort">
-            <label class="todo-selector">Sortierung:
-                <select class="todo-select" name="sort-selector" id="sort-select">
-                    <option value="priority" selected>Priorität</option>
-                    <option value="due-date">Fälligkeit</option>
-                    <option value="name">Name</option>
-                    <option value="creation-date">Erstellung</option>
-                </select>
-            </label>
+    <div class="todo-list-view">
+        <div class="todo-action-bar">
+            <div class="todo-action-bar-sort">
+                <label class="todo-selector">Sortierung:
+                    <select class="todo-select" name="sort-selector" id="sort-select">
+                        <option value="priority" selected>Priorität</option>
+                        <option value="due-date">Fälligkeit</option>
+                        <option value="name">Name</option>
+                        <option value="creation-date">Erstellung</option>
+                    </select>
+                </label>
+            </div>
+            <div class="todo-action-bar-direction">
+                <label>Richtung:</label>
+                <button class="todo-button" type="button">A...Z</button>
+            </div>
+            <div class="todo-action-bar-filter">
+                <label class="todo-selector">Anzeige:
+                    <select class="todo-select" name="filter-selector" id="filter-select">
+                        <option value="all" selected>alle Pendenzen</option>
+                        <option value="not-done">offene Pendenzen</option>
+                        <option value="over-due">überfällige Pendenzen</option>
+                    </select>
+                </label>
+            </div>
+            <div class="todo-action-bar-add">
+                <button class="todo-button" type="button">
+                    <img class="todo-button-image" src="assets/add-light.svg" alt="add item"/>
+                </button>
+            </div>
         </div>
-        <div class="todo-action-bar-direction">
-            <label>Richtung:</label>
-            <button class="todo-button" type="button">A>Z</button>
-        </div>
-        <div class="todo-action-bar-filter">
-            <label class="todo-selector">Anzeige:
-                <select class="todo-select" name="filter-selector" id="filter-select">
-                    <option value="all" selected>alle Pendenzen</option>
-                    <option value="not-done">offene Pendenzen</option>
-                    <option value="over-due">überfällige Pendenzen</option>
-                </select>
-            </label>
-        </div>
-        <div class="todo-action-bar-add">
-            <button class="todo-button" type="button">
-                <img class="todo-button-image" src="assets/add-light.svg" alt="add item"/>
-            </button>
-        </div>
+
+        <div class="todo-item-list-container"></div>
     </div>
 
-    <div class="todo-item-list-container"></div>
-
+    <div class="todo-edit-view">
     <div class="todo-edit-item">
         <div class="todo-edit-item-title">
             <div class="todo-edit-item-name">
@@ -132,15 +144,15 @@
                        value="2022-05-24" min="01/01/2022">
             </div>
             <div class="todo-edit-item-priority">
-                <input type="radio" name="prio" value="" id="edit-item-prio-urgent">
+                <input type="radio" name="prio" value="5" id="edit-item-prio-urgent">
                 <label for="edit-item-prio-urgent">Dringend</label>
-                <input type="radio" name="prio" value="" id="edit-item-prio-high">
+                <input type="radio" name="prio" value="4" id="edit-item-prio-high">
                 <label for="edit-item-prio-high">Wichtig</label>
-                <input type="radio" name="prio" value="" id="edit-item-prio-medium">
+                <input type="radio" name="prio" value="3" id="edit-item-prio-medium" checked>
                 <label for="edit-item-prio-medium">Mittel</label>
-                <input type="radio" name="prio" value="" id="edit-item-prio-low">
+                <input type="radio" name="prio" value="2" id="edit-item-prio-low">
                 <label for="edit-item-prio-low">Unwichtig</label>
-                <input type="radio" name="prio" value="" id="edit-item-prio-unimportant">
+                <input type="radio" name="prio" value="1" id="edit-item-prio-unimportant">
                 <label for="edit-item-prio-unimportant">Egal</label>
             </div>
         </div>
@@ -153,6 +165,7 @@
             <button type="button">Abbrechen</button>
             <button type="button">Speichern</button>
         </div>
+    </div>
     </div>
 </main>
 
