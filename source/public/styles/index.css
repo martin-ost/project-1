@@ -109,7 +109,7 @@ html {
 .todo-action-bar {
     display: grid;
     align-items: center;
-    grid-template-columns: minmax(0, 10rem) minmax(0, 10rem) minmax(0, 13rem) auto;
+    grid-template-columns: minmax(0, 10rem) minmax(0, 10rem) minmax(0, 14rem) auto;
     height: 3rem;
 }
 

@@ -1,4 +1,4 @@
-import Note from './todo-note-item.js'
+import Note from './todo-note-item.js';
 import todoStore from './todo-service.js';
 
 class TodoController {
@@ -11,7 +11,7 @@ class TodoController {
         this.headerThemeIcon = document.querySelector('.todo-header-theme .todo-button img');
         this.headerInfo = document.querySelector('.todo-header-info');
 
-        // todo: use setter and getter for theme
+        // todo: use setter and getter for theme, also use enum
         this.theme = "light"; // "light", "dark"
 
         this.actionBarSort = document.querySelector('.todo-action-bar-sort');
@@ -19,6 +19,7 @@ class TodoController {
         this.actionBarFilter = document.querySelector('.todo-action-bar-filter');
         this.actionBarAdd = document.querySelector('.todo-action-bar-add');
 
+        // todo: use enums
         this.sortCriteria = "priority"; // "priority", "due-date", "name", "creation-date"
         this.sortDirection = "ascending"; // "ascending", "descending"
         this.filterCriteria = "all"; // "all", "not-done", "over-due"
@@ -27,12 +28,15 @@ class TodoController {
         this.itemListTemplateCompiled = Handlebars.compile(document.getElementById(
             'todo-item-list-template').innerHTML);
 
-        this.note = new Note();
+        this.id = 0;
+        this.creationTime = 0; // creation time is not changed on update message
         this.editName = document.querySelector('.todo-edit-item-name input');
         this.editDescription = document.querySelector('.todo-edit-item-description textarea');
         this.editDueDate = document.querySelector('.todo-edit-item-due-date input');
         this.editPriority = document.querySelector('.todo-edit-item-priority');
         this.editDone = document.querySelector('.todo-edit-item-done input');
+
+        this.editActions = document.querySelector('.todo-edit-item-actions');
     }
 
     initialize() {
@@ -44,11 +48,13 @@ class TodoController {
     }
 
     initEventHandlers() {
+        // todo: one event listener, use data to specify action
         this.headerTheme.addEventListener(
             'click', (event) => { this.onThemeClick(event); });
         this.headerInfo.addEventListener(
             'click', (event) => { this.onInfoClick(event); });
 
+        // todo: one event listener, use data to specify, possible to add more than one event type (check)?
         this.actionBarSort.addEventListener(
             'change', (event) => { this.onActionBarSortChange(event); });
         this.actionBarDirection.addEventListener(
@@ -62,6 +68,9 @@ class TodoController {
             'click', (event) => { this.onItemClick(event); });
         this.itemListContainer.addEventListener(
             'change', (event) => { this.onItemChange(event); });
+
+        this.editActions.addEventListener(
+            'click', (event) => { this.onEditAction(event); });
     }
 
     onThemeClick(event) {
@@ -77,6 +86,7 @@ class TodoController {
 
     onInfoClick(event) {
         window.console.log("show-info");
+        // todo: implement info view
         this.displayListView()
     }
 
@@ -122,6 +132,20 @@ class TodoController {
         }
     }
 
+    onEditAction(event) {
+        // use data to get action
+        if (event.target.id === 'todo-edit-save') {
+            window.console.log("edit - save");
+            this.saveEditView();
+        } else if (event.target.id === 'todo-edit-chancel') {
+            window.console.log("edit - chancel");
+            this.displayListView();
+        } else if (event.target.id === 'todo-edit-reset') {
+            window.console.log("edit - reset");
+            this.resetEditView()
+        }
+    }
+
     setItemDone(id) {
         window.console.log("set done", id);
         const note = todoStore.getNoteById(id);
@@ -148,6 +172,7 @@ class TodoController {
     }
 
     setSortDirection(direction) {
+        // todo: use map to get direction text
         if (direction === "ascending") {
             if (this.sortCriteria === "priority")
                 this.actionBarDirection.textContent = "Dringend";
@@ -182,14 +207,48 @@ class TodoController {
         window.console.log("display edit view", id)
         this.listView.style.display = "none";
         this.editView.style.display = "block";
+        this.id = id;
+        this.resetEditView();
+    }
 
-        if (id !== 0) {
-            this.note = todoStore.getNoteById(id);
-            this.editName.value = this.note.name ;
-            this.editDescription.value = this.note.description;
-            this.editDueDate.value = new Date(this.note.dueDate).toISOString().substring(0,10);
-            this.editPriority.querySelector(`input[value="${this.note.priority}"]`).checked = true;
-            this.editDone.checked = this.note.done;
+    saveEditView() {
+        const note = new Note();
+        note.id = this.id;
+        note.name = this.editName.value;
+        note.description = this.editDescription.value;
+        note.dueDate = new Date(this.editDueDate.value).getTime();
+        note.done = this.editDone.checked;
+        this.editPriority.querySelectorAll('input').forEach( (radio) => {
+            if (radio.checked) {
+                note.priority = radio.value;
+            }
+        });
+        if (this.id === 0) {
+            note.creationTime = new Date().getTime(); // new note: creation is now
+            todoStore.addNote(note);
+        } else {
+            note.creationTime = this.creationTime;  // existing note: creation time is not changed by update
+            todoStore.updateNote(note)
+        }
+        this.displayListView();
+    }
+
+    resetEditView() {
+        if (this.id === 0) {
+            // default settings
+            this.editName.value = "";
+            this.editDescription.value = "";
+            this.editDueDate.value = new Date().toISOString().substring(0, 10);
+            this.editPriority.querySelector('input[value="3"]').checked = true;
+            this.editDone.checked = false;
+        } else {
+            const note = todoStore.getNoteById(this.id);
+            this.editName.value = note.name ;
+            this.editDescription.value = note.description;
+            this.editDueDate.value = new Date(note.dueDate).toISOString().substring(0,10);
+            this.editPriority.querySelector(`input[value="${note.priority}"]`).checked = true;
+            this.editDone.checked = note.done;
+            this.creationTime = note.creationTime; // creation time is not changed by update
         }
     }
 
@@ -211,9 +270,9 @@ class TodoController {
         else if (days === -1)
             result = "Gestern";
         else if (days < 0)
-            result = `vor ${Math.abs(days)} Tagen`;
+            result = `in ${Math.abs(days)} Tagen`;
         else if (days > 0)
-            result = `in ${days} Tagen`;
+            result = `vor ${days} Tagen`;
 
         return result;
     }

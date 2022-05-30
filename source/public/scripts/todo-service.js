@@ -2,6 +2,7 @@ import Note from './todo-note-item.js';
 
 class TodoService {
 
+    // todo: use enum PRIO, NAME, CREATION, DUE
     sortCriterias = new Map([
         [ "priority", (n1,n2) => n2.priority - n1.priority ],
         [ "name", (n1,n2) => n1.name > n2.name ],
@@ -9,6 +10,7 @@ class TodoService {
         [ "due-date", (n1,n2) => n2.dueDate - n1.dueDate ]
     ]);
 
+    // todo: use enum ALL, NOT_DONE, OVERDUE
     filterCriterias = new Map([
         [ "all", (n) => true ],
         [ "not-done", (n) => !n.done ],
