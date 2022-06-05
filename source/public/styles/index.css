@@ -280,6 +280,16 @@ svg:hover {
     width: 90%;
 }
 
+.todo-edit-item-name label.todo-error {
+    color: red;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.todo-edit-item-name input.dirty:invalid {
+    background-color: mistyrose;
+}
+
 .todo-edit-item-name input {
     font-family: inherit;
     font-weight: bold;

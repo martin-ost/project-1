@@ -112,12 +112,12 @@
         </section>
     </section>
 
-    <div class="todo-edit-view" data-id="todo-item-edit-container">
+    <form class="todo-edit-view" data-id="todo-item-edit-container" novalidate>
         <div class="todo-edit-item">
             <div class="todo-edit-item-title">
                 <div class="todo-edit-item-name">
-                    <label for="edit-item-name">Name</label>
-                    <input type="text" name="name" id="edit-item-name" data-id="todo-edit-name" value="">
+                    <label for="edit-item-name" data-id="todo-edit-name-label">Name</label>
+                    <input type="text" name="name" id="edit-item-name" data-id="todo-edit-name-input" required>
                 </div>
                 <div class="todo-edit-item-done">
                     <label for="edit-item-done">Erledigt</label>
@@ -152,7 +152,7 @@
                 <button type="button" data-id="todo-edit-save">Speichern</button>
             </div>
         </div>
-    </div>
+    </form>
 </main>
 
 <footer>
