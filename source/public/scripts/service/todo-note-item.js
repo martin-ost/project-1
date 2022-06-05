@@ -1,4 +1,6 @@
-export default class Note {
+/* eslint-disable import/prefer-default-export */
+
+export class Note {
     constructor(id, name, creationTime, dueDate, done, priority, description) {
         this.id = id;
         this.name = name;
