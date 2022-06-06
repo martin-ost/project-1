@@ -30,6 +30,7 @@ Fragen:
     --theme-background-text-box-color: white;
     --theme-divider-color: black;
     --theme-icon-theme-color: black;
+    --theme-icon-theme-color-hover: blue;
     --theme-icon-theme-display-light: inline;
     --theme-icon-theme-display-dark: none;
 }
@@ -44,7 +45,8 @@ Fragen:
     --theme-frame-text-box-color: lightgray;
     --theme-background-text-box-color: #3d3838;
     --theme-divider-color: lightgray;
-    --theme-icon-theme-color: yellow;
+    --theme-icon-theme-color: lightgray;
+    --theme-icon-theme-color-hover: skyblue;
     --theme-icon-theme-display-light: none;
     --theme-icon-theme-display-dark: inline;
 }
@@ -59,13 +61,11 @@ html {
 
 svg {
     cursor: pointer;
-    //color: var(--theme-font-action-color);
-    color: rgba(256 256 256);
+    color: var(--theme-icon-theme-color);
 }
 
 svg:hover {
-    //color: var(--theme-font-action-color);
-    color: blue;
+    color: var(--theme-icon-theme-color-hover);
 }
 
 .todo-button {
@@ -123,17 +123,17 @@ svg:hover {
 }
 
 .todo-icon-theme-light:hover {
-    color: var(--theme-font-action-color);
+    color: var(--theme-icon-theme-color-hover);
 }
 
 .todo-icon-theme-dark {
     cursor: pointer;
     display: var(--theme-icon-theme-display-dark);
-    color: var(--theme-icon-theme-color);
+    color: var(--theme-icon-theme-color-hover);
 }
 
 .todo-icon-theme-dark:hover {
-    color: var(--theme-font-action-color);
+    color: var(--theme-icon-theme-color);
 }
 
 .todo-action-bar-container {
