@@ -29,20 +29,22 @@ export class TodoMainController {
 
     _toggleTheme() {
         if (this._curTheme === 'light')
-            this.setTheme('dark');
+            this._setTheme('dark');
         else
-            this.setTheme('light');
+            this._setTheme('light');
     }
 
-    setTheme(theme) {
+    _setTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
         this._curTheme = theme;
     }
 
     init() {
-        this._themeBtn.addEventListener('click', (event) => { this._onThemeClick(event); });
-        this._infoBtn.addEventListener('click', (event) => { this._onInfoClick(event); });
-        this.setTheme('light');
+        this._themeBtn.addEventListener(
+            'click', (event) => { this._onThemeClick(event); });
+        this._infoBtn.addEventListener(
+            'click', (event) => { this._onInfoClick(event); });
+        this._setTheme('light');
         this._editCtrl.init();
         this._listCtrl.init();
         this._curCtrl = this._listCtrl;
