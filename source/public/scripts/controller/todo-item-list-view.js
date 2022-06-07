@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/prefer-default-export */
 
-export class TodoItemListController {
+export class TodoItemListView {
 
     constructor() {
         this._itemListContainer = document.querySelector('[data-id="todo-item-list-container"]');
@@ -32,11 +32,11 @@ export class TodoItemListController {
 
     init() {
         Handlebars.registerHelper('print_due_date',
-            (date) => TodoItemListController._getDueDateView(date));
+            (date) => TodoItemListView._getDueDateView(date));
         Handlebars.registerHelper('print_priority',
-            (priority) => TodoItemListController._getPriorityView(priority));
+            (priority) => TodoItemListView._getPriorityView(priority));
         Handlebars.registerHelper('print_creation_time',
-            (time) => TodoItemListController._getCreationTimeView(time));
+            (time) => TodoItemListView._getCreationTimeView(time));
     }
 
     render(notes) {
