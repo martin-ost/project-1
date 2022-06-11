@@ -1,0 +1,395 @@
+/*
+ * CAS-FEE 2022 / Project 1 / Martin Frey
+*/
+
+[data-theme="light"] {
+    --theme-background-color: white;
+    --theme-font-normal-color: black;
+    --theme-font-header-color: white;
+    --theme-font-action-color: blue;
+    --theme-font-disabled: gray;
+    --theme-button-font-color: white;
+    --theme-button-background-color: black;
+    --theme-frame-text-box-color: lightgray;
+    --theme-background-text-box-color: white;
+    --theme-icon-color: black;
+    --theme-icon-color-hover: red;
+    --theme-icon-theme-display-light: inline;
+    --theme-icon-theme-display-dark: none;
+}
+
+[data-theme="dark"] {
+    --theme-background-color: black;
+    --theme-font-normal-color: lightgray;
+    --theme-font-action-color: skyblue;
+    --theme-font-disabled: gray;
+    --theme-button-font-color: black;
+    --theme-button-background-color: skyblue;
+    --theme-frame-text-box-color: lightgray;
+    --theme-background-text-box-color: #3d3838;
+    --theme-divider-color: lightgray;
+    --theme-icon-theme-color: lightgray;
+    --theme-icon-theme-color-hover: skyblue;
+    --theme-icon-theme-display-light: none;
+    --theme-icon-theme-display-dark: inline;
+}
+
+html {
+    font-family: "Roboto Flex", sans-serif;
+    font-size: 20px;
+    color: var(--theme-font-normal-color);
+    background: var(--theme-background-color);
+}
+
+button {
+    padding: 0;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+}
+
+svg {
+    background-color: inherit;
+    pointer-events: none;
+}
+
+.todo-select {
+    font-family: inherit;
+    text-align: left;
+}
+
+.todo-select select {
+    appearance: none;
+    font-family: inherit;
+    font-size: inherit;
+    font-style: italic;
+    color: var(--theme-font-action-color);
+    background: var(--theme-background-color);
+    border-color: var(--theme-background-color);
+    cursor: pointer;
+}
+
+.todo-header-view {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    overflow: clip;
+    z-index: 1;
+    display: grid;
+    margin: 0;
+    padding: 10px 30px;
+    grid-template-columns: auto 2rem 2rem;
+    height: 2.5rem;
+    align-items: end;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    background-color: #006dfe;
+    box-shadow: 0 5px 5px 0 rgb(127 127 127 / 100%);
+}
+
+.todo-header-view button {
+    color: white;
+}
+
+.todo-header-view button:hover {
+    color: black;
+}
+
+.todo-icon-theme-light {
+    display: var(--theme-icon-theme-display-light);
+}
+
+.todo-icon-theme-dark {
+    display: var(--theme-icon-theme-display-dark);
+}
+
+.todo-icon-theme-dark:hover {
+    color: var(--theme-icon-theme-color);
+}
+
+.todo-list-view {
+    position: relative;
+    top: 6rem;
+    padding: 0 0 20px;
+}
+
+.todo-action-bar-container {
+    position: fixed;
+    top: 3.5rem;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    padding: 0 30px;
+    margin: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 10rem) minmax(0, 10rem) minmax(0, 10rem) auto;
+    height: 3rem;
+    align-items: center;
+    background: white;
+}
+
+.todo-btn-sort-dir {
+    font-family: inherit;
+    font-size: inherit;
+    font-style: italic;
+    color: var(--theme-font-action-color);
+}
+
+.todo-btn-add-new {
+    justify-self: end;
+}
+
+.todo-item-list-entry-container {
+    padding: 20px;
+    margin: 20px;
+    display: grid;
+    grid-template-columns: 4rem auto 2rem 2rem;
+    grid-template-rows: 1rem 1rem 1rem;
+    height: 3rem;
+    box-shadow: 0 5px 5px 0 rgb(127 127 127 / 100%);
+}
+
+.todo-item-list-entry-container svg {
+    background-color: inherit;
+}
+
+.todo-item-list-entry-container[data-prio="5"] {
+    background-color: #f0deff;
+}
+
+.todo-item-list-entry-container[data-prio="5"]:hover {
+    background-color: lightskyblue;
+}
+
+.todo-item-list-entry-container[data-prio="4"] {
+    background-color: #fdf1c1;
+}
+
+.todo-item-list-entry-container[data-prio="4"]:hover {
+    background-color: lightskyblue;
+}
+
+.todo-item-list-entry-container[data-prio="3"] {
+    background-color: #f7ffcb;
+}
+
+.todo-item-list-entry-container[data-prio="3"]:hover {
+    background-color: lightskyblue;
+}
+
+.todo-item-list-entry-container[data-prio="2"] {
+    background-color: lightyellow;
+}
+
+.todo-item-list-entry-container[data-prio="2"]:hover {
+    background-color: lightskyblue;
+}
+
+.todo-item-list-entry-container[data-prio="1"] {
+    background-color: #f3f3f3;
+}
+
+.todo-item-list-entry-container[data-prio="1"]:hover {
+    background-color: lightskyblue;
+}
+
+.todo-item-list-entry-due-date {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: start;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.todo-item-list-entry-name {
+    grid-row: 1;
+    grid-column: 2;
+    align-self: start;
+    font-weight: bold;
+}
+
+.todo-item-list-entry-done {
+    grid-row: 1;
+    grid-column: 3 / span 2;
+    align-self: start;
+    justify-self: end;
+    font-size: 0.7rem;
+}
+
+.todo-item-list-entry-priority {
+    grid-row: 2;
+    grid-column: 1 / span 4;
+    align-self: center;
+    font-size: 0.7rem;
+}
+
+.todo-item-list-entry-created {
+    grid-row: 3;
+    grid-column: 1;
+    align-self: end;
+    font-size: 0.7rem;
+    font-style: italic;
+    color: gray;
+}
+
+.todo-item-list-entry-description {
+    grid-row: 3;
+    grid-column: 2;
+    align-self: end;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.todo-item-list-entry-btn {
+    display: none;
+    align-self: end;
+    justify-self: end;
+}
+
+.todo-item-list-entry-btn[data-click="delete"] {
+    grid-row: 3;
+    grid-column: 3;
+    color: red;
+}
+
+.todo-item-list-entry-btn[data-click="edit"] {
+    grid-row: 3;
+    grid-column: 4;
+}
+
+.todo-item-list-entry-container:hover .todo-item-list-entry-btn {
+    display: inline;
+}
+
+.todo-item-list-no-entry {
+    padding: 20px;
+    display: grid;
+    align-items: center;
+    height: 4rem;
+    font-size: 4rem;
+}
+
+.todo-edit-view {
+    position: fixed;
+    overflow: hidden;
+    top: 3.5rem;
+    left: 0;
+    right: 0;
+    margin: 1rem 2rem;
+    padding: 0 0 20px;
+}
+
+.todo-edit-item-container {
+    display: grid;
+    grid-template-columns: 8rem auto 8rem;
+    grid-template-rows: 4rem 3rem 10rem;
+    align-items: end;
+}
+
+.todo-edit-item-name {
+    grid-row: 1;
+    grid-column: 1 / span 2;
+}
+
+.todo-edit-item-name input {
+    display: block;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: inherit;
+    color: var(--theme-font-normal-color);
+    background-color: var(--theme-background-text-box-color);
+    border: 1px solid var(--theme-frame-text-box-color);
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.todo-edit-item-name label.todo-error {
+    color: red;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.todo-edit-item-name input.dirty:invalid {
+    background-color: mistyrose;
+}
+
+.todo-edit-item-done {
+    grid-row: 1;
+    grid-column: 3;
+    justify-self: end;
+}
+
+.todo-edit-item-due-date {
+    grid-row: 2;
+    grid-column: 1;
+}
+
+.todo-edit-item-due-date input {
+    display: block;
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--theme-font-normal-color);
+    background-color: var(--theme-background-text-box-color);
+    border: 1px solid var(--theme-frame-text-box-color);
+}
+
+.todo-edit-item-priority {
+    grid-row: 2;
+    grid-column: 2 / span 2;
+    justify-self: end;
+}
+
+.todo-edit-item-description {
+    grid-row: 3;
+    grid-column: 1 / span 3;
+}
+
+.todo-edit-item-description textarea {
+    display: block;
+    resize: none;
+    height: 8rem;
+    box-sizing: border-box;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--theme-font-normal-color);
+    background-color: var(--theme-background-text-box-color);
+    border: 1px solid var(--theme-frame-text-box-color);
+}
+
+.todo-edit-item-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 3rem;
+}
+
+.todo-edit-view .todo-edit-item-actions button {
+    margin-left: 1rem;
+    height: 1.7rem;
+    width: 7rem;
+    color: white;
+    background-color: #006dfe;
+    border: none;
+    border-radius: 0.7rem;
+}
+
+.todo-edit-view .todo-edit-item-actions button:hover {
+    background-color: black;
+}
+
+.todo-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    padding: 10px 30px;
+    font-size: 0.7rem;
+    font-style: italic;
+    background: lightgray;
+    box-shadow: 5px 5px 5px 5px rgb(127 127 127 / 100%);
+}

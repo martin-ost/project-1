@@ -2,57 +2,59 @@
 <html lang="de-CH">
 <head>
     <meta charset="UTF-8">
-    <title>CAS-FEE: Projekt 1: ToDo-Applikation</title>
+    <title>CAS-FEE 2022 / Projekt 1 / Martin Frey</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,200&family=Roboto:wght@300&display=swap">
-    <link rel="stylesheet" href="styles/index.css">
-    <!--
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,200&family=Roboto:wght@300&display=swap">
+
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/todo.css">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js" defer></script>
-    -->
-    <script src="./../../node_modules/handlebars/dist/handlebars.min.js"></script>
     <script src="scripts/todo.js" type="module" defer></script>
 
     <script data-id="todo-item-list-template" type="text/x-handlebars-template">
         {{#each this}}
-            <section class="todo-item-list-entry-container"">
+            <section class="todo-item-list-entry-container" data-prio="{{priority}}">
                 <div class="todo-item-list-entry-due-date">
                     {{print_due_date this.dueDate}}
                 </div>
-                <div class="todo-item-list-entry-priority" data-prio="{{priority}}">
-                    {{print_priority this.priority}}
                 </div>
-                    <div class="todo-item-list-entry-done">
-                    {{#if done}}
-                        <input type="checkbox" id="done-{{id}}" name="done" disabled="disabled" checked>
-                        <label for="done-{{id}}">Erledigt</label>
-                    {{^}}
-                        <input type="checkbox" id="done-{{id}}" data-id="{{id}}" name="done">
-                        <label for="done-{{id}}">Pendent</label>
-                    {{/if}}
-                    </div>
                 <div class="todo-item-list-entry-name">
                     {{name}}
                 </div>
-                <div class="todo-item-list-entry-description">
-                    {{description}}
+                <div class="todo-item-list-entry-done">
+                    {{#if done}}
+                        <label for="done-{{id}}">Erledigt</label>
+                        <input type="checkbox" id="done-{{id}}" name="done" disabled="disabled" checked>
+                    {{^}}
+                        <label for="done-{{id}}">Pendent</label>
+                        <input type="checkbox" id="done-{{id}}" data-id="{{id}}" name="done">
+                    {{/if}}
+                </div>
+                <div class="todo-item-list-entry-priority">
+                    {{print_priority this.priority}}
                 </div>
                 <div class="todo-item-list-entry-created">
                     {{print_creation_time this.creationTime}}
                 </div>
-                <div class="todo-item-list-entry-btn">
-                    <svg class="todo-button" data-id="{{id}}" data-click="edit" viewBox="0 0 48 48" width="20"
+                <div class="todo-item-list-entry-description">
+                    {{description}}
+                </div>
+                <button class="todo-item-list-entry-btn" data-id="{{id}}" data-click="edit">
+                    <svg viewBox="0 0 48 48" width="20"
                          height="20">
                         <use href="./styles/icons.svg#edit"></use>
                     </svg>
-                </div>
-                <div class="todo-item-list-entry-btn">
-                    <svg class="todo-button" data-id="{{id}}" data-click="delete" viewBox="0 0 48 48" width="20"
+                </button>
+                <button class="todo-item-list-entry-btn" data-id="{{id}}" data-click="delete">
+                    <svg viewBox="0 0 48 48" width="20"
                          height="20">
                         <use href="./styles/icons.svg#delete"></use>
                     </svg>
-                </div>
+                </button>
             </section>
         {{else}}
             <section class="todo-item-list-no-entry">
@@ -65,21 +67,21 @@
 
 <body>
 <header>
-    <section class="todo-header-container">
+    <section class="todo-header-view">
         <div>Pendenzenliste</div>
-        <div class="todo-btn-theme" data-id="todo-btn-theme" >
-            <svg class="todo-icon-theme-light" data-click="theme" viewBox="0 0 24 24" width="24" height="24">
+        <button data-click="theme" data-id="todo-btn-theme">
+            <svg class="todo-icon-theme-light" viewBox="0 0 24 24" width="24" height="24">
                 <use href="./styles/icons.svg#light"></use>
             </svg>
-            <svg class="todo-icon-theme-dark" data-click="theme-1" viewBox="0 0 24 24" width="24" height="24">
+            <svg class="todo-icon-theme-dark" viewBox="0 0 24 24" width="24" height="24">
                 <use href="./styles/icons.svg#dark"></use>
             </svg>
-        </div>
-        <div class="todo-btn-info" data-id="todo-btn-info" >
-            <svg viewBox="0 0 48 48" data-click="info" width="24" height="24">
+        </button>
+        <button data-click="info" data-id="todo-btn-info">
+            <svg viewBox="0 0 48 48" width="24" height="24">
                 <use href="./styles/icons.svg#info"></use>
             </svg>
-        </div>
+        </button>
     </section>
 </header>
 
@@ -94,8 +96,8 @@
                     <option value="creation-date">Erstellung</option>
                 </select>
             </label>
-            <label class="todo-btn-sort-dir">Richtung:
-                <button class="todo-button" data-id="todo-btn-sort-dir" type="button">A...Z</button>
+            <label>Richtung:
+                <button class="todo-btn-sort-dir" data-id="todo-btn-sort-dir" type="button">A...Z</button>
             </label>
             <label class="todo-select">Anzeige:
                 <select name="todo-sel-filter" data-id="todo-sel-filter">
@@ -104,64 +106,59 @@
                     <option value="over-due">Überfällig</option>
                 </select>
             </label>
-            <div class="todo-btn-add-new">
-                <svg data-id="todo-btn-add-new" viewBox="0 0 48 48" width="24" height="24">
+            <button class="todo-btn-add-new" data-id="todo-btn-add-new">
+                <svg viewBox="0 0 48 48" width="24" height="24">
                     <use href="./styles/icons.svg#add"></use>
                 </svg>
-            </div>
+            </button>
         </section>
-        <section class="todo-item-list-container" data-id="todo-item-list-container">
+        <section data-id="todo-item-list-container">
             <!-- item list, dynamically generated by Handlebars -->
         </section>
     </section>
 
     <form class="todo-edit-view" data-id="todo-item-edit-container" novalidate>
-        <div class="todo-edit-item">
-            <div class="todo-edit-item-title">
-                <div class="todo-edit-item-name">
-                    <label for="edit-item-name" data-id="todo-edit-name-label">Name</label>
-                    <input type="text" name="name" id="edit-item-name" data-id="todo-edit-name-input" required>
-                </div>
-                <div class="todo-edit-item-done">
-                    <label for="edit-item-done">Erledigt</label>
-                    <input type="checkbox" name="done" value="" id="edit-item-done" data-id="todo-edit-done">
-                </div>
+        <div class="todo-edit-item-container">
+            <div class="todo-edit-item-name">
+                <label for="edit-item-name" data-id="todo-edit-name-label">Name</label>
+                <input type="text" name="name" id="edit-item-name" data-id="todo-edit-name-input" required>
             </div>
-            <div class="todo-edit-item-settings">
-                <div class="todo-edit-item-due-date">
-                    <label for="edit-due-date">Termin</label>
-                    <input type="date" id="edit-due-date" data-id="todo-edit-due-date" placeholder="dd/mm/yyyy">
-                </div>
-                <div class="todo-edit-item-priority" data-id="todo-edit-priority">
-                    <input type="radio" name="prio" value="5" id="edit-item-prio-urgent">
-                    <label for="edit-item-prio-urgent">Dringend</label>
-                    <input type="radio" name="prio" value="4" id="edit-item-prio-high">
-                    <label for="edit-item-prio-high">Wichtig</label>
-                    <input type="radio" name="prio" value="3" id="edit-item-prio-medium" checked>
-                    <label for="edit-item-prio-medium">Mittel</label>
-                    <input type="radio" name="prio" value="2" id="edit-item-prio-low">
-                    <label for="edit-item-prio-low">Unwichtig</label>
-                    <input type="radio" name="prio" value="1" id="edit-item-prio-unimportant">
-                    <label for="edit-item-prio-unimportant">Egal</label>
-                </div>
+            <div class="todo-edit-item-done">
+                <label for="edit-item-done">Erledigt</label>
+                <input type="checkbox" name="done" value="" id="edit-item-done" data-id="todo-edit-done">
+            </div>
+            <div class="todo-edit-item-due-date">
+                <label for="edit-due-date">Termin</label>
+                <input type="date" id="edit-due-date" data-id="todo-edit-due-date" placeholder="dd/mm/yyyy">
+            </div>
+            <div class="todo-edit-item-priority" data-id="todo-edit-priority">
+                <input type="radio" name="prio" value="5" id="edit-item-prio-urgent">
+                <label for="edit-item-prio-urgent">Dringend</label>
+                <input type="radio" name="prio" value="4" id="edit-item-prio-high">
+                <label for="edit-item-prio-high">Wichtig</label>
+                <input type="radio" name="prio" value="3" id="edit-item-prio-medium" checked>
+                <label for="edit-item-prio-medium">Mittel</label>
+                <input type="radio" name="prio" value="2" id="edit-item-prio-low">
+                <label for="edit-item-prio-low">Unwichtig</label>
+                <input type="radio" name="prio" value="1" id="edit-item-prio-unimportant">
+                <label for="edit-item-prio-unimportant">Egal</label>
             </div>
             <div class="todo-edit-item-description">
                 <label for="edit-text-description">Beschreibung</label>
                 <textarea name="description" id="edit-text-description" data-id="todo-edit-description"></textarea>
             </div>
-            <div class="todo-edit-item-actions">
-                <button type="button" data-id="todo-edit-reset">Zurücksetzen</button>
-                <button type="button" data-id="todo-edit-abort">Abbrechen</button>
-                <button type="button" data-id="todo-edit-save">Speichern</button>
-            </div>
+        </div>
+        <div class="todo-edit-item-actions">
+            <button type="button" data-id="todo-edit-reset">Zurücksetzen</button>
+            <button type="button" data-id="todo-edit-abort">Abbrechen</button>
+            <button type="button" data-id="todo-edit-save">Speichern</button>
         </div>
     </form>
 </main>
-
 <footer>
-    <div class="todo-footer">
+    <section class="todo-footer">
         CAS-FEE-2022 / Project 1 / Martin Frey
-    </div>
+    </section>
 </footer>
 
 </body>
