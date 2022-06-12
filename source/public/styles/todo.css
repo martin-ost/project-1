@@ -4,40 +4,70 @@
 
 [data-theme="light"] {
     --theme-background-color: white;
-    --theme-font-normal-color: black;
+    --theme-header-background-color: #006dfe;
+    --theme-font-color: black;
     --theme-font-header-color: white;
-    --theme-font-action-color: blue;
     --theme-font-disabled: gray;
-    --theme-button-font-color: white;
-    --theme-button-background-color: black;
     --theme-frame-text-box-color: lightgray;
     --theme-background-text-box-color: white;
-    --theme-icon-color: black;
-    --theme-icon-color-hover: red;
+    --theme-icon-delete: red;
     --theme-icon-theme-display-light: inline;
     --theme-icon-theme-display-dark: none;
+    --theme-footer-background-color: lightgray;
+    --theme-footer-font-color: black;
+    --theme-font-error: red;
+    --theme-input-error: mistyrose;
+    --theme-item-prio-1: #f3f3f3;
+    --theme-item-prio-1-hover: lightskyblue;
+    --theme-item-prio-2: lightyellow;
+    --theme-item-prio-2-hover: lightskyblue;
+    --theme-item-prio-3: #f7ffcb;
+    --theme-item-prio-3-hover: lightskyblue;
+    --theme-item-prio-4: #fdf1c1;
+    --theme-item-prio-4-hover: lightskyblue;
+    --theme-item-prio-5: #f0deff;
+    --theme-item-prio-5-hover: lightskyblue;
+    --theme-shadow: 0 5px 5px 0 rgba(127 127 127 / 100%);
+    --theme-shadow-footer: 0 -4px 5px 0 rgba(127 127 127 / 100%);
+    --theme-outline: black solid 2px;
+    --theme-button-hover: black;
 }
 
 [data-theme="dark"] {
-    --theme-background-color: black;
-    --theme-font-normal-color: lightgray;
-    --theme-font-action-color: skyblue;
+    --theme-background-color: #343434;
+    --theme-header-background-color: #291096;
+    --theme-font-color: lightgray;
+    --theme-font-header-color: lightgray;
     --theme-font-disabled: gray;
-    --theme-button-font-color: black;
-    --theme-button-background-color: skyblue;
     --theme-frame-text-box-color: lightgray;
-    --theme-background-text-box-color: #3d3838;
-    --theme-divider-color: lightgray;
-    --theme-icon-theme-color: lightgray;
-    --theme-icon-theme-color-hover: skyblue;
+    --theme-background-text-box-color: white;
+    --theme-icon-delete: red;
     --theme-icon-theme-display-light: none;
-    --theme-icon-theme-display-dark: inline;
+    --theme-icon-theme-display-dark: lightgray;
+    --theme-footer-background-color: black;
+    --theme-footer-font-color: lightgray;
+    --theme-font-error: red;
+    --theme-input-error: mistyrose;
+    --theme-item-prio-1: #f3f3f3;
+    --theme-item-prio-1-hover: lightskyblue;
+    --theme-item-prio-2: lightyellow;
+    --theme-item-prio-2-hover: lightskyblue;
+    --theme-item-prio-3: #f7ffcb;
+    --theme-item-prio-3-hover: lightskyblue;
+    --theme-item-prio-4: #fdf1c1;
+    --theme-item-prio-4-hover: lightskyblue;
+    --theme-item-prio-5: #f0deff;
+    --theme-item-prio-5-hover: lightskyblue;
+    --theme-shadow: none;
+    --theme-shadow-footer: none;
+    --theme-outline: black solid 2px;
+    --theme-button-hover: black;
 }
 
 html {
     font-family: "Roboto Flex", sans-serif;
     font-size: 20px;
-    color: var(--theme-font-normal-color);
+    color: var(--theme-font-color);
     background: var(--theme-background-color);
 }
 
@@ -48,26 +78,46 @@ button {
     cursor: pointer;
 }
 
+button:focus-visible {
+    outline: var(--theme-outline);
+}
+
 svg {
     background-color: inherit;
     pointer-events: none;
 }
 
-.todo-select {
-    font-family: inherit;
-    text-align: left;
-}
-
-.todo-select select {
+select {
     appearance: none;
     font-family: inherit;
     font-size: inherit;
     font-style: italic;
-    color: var(--theme-font-action-color);
+    color: var(--theme-header-background-color);
     background: var(--theme-background-color);
     border-color: var(--theme-background-color);
     cursor: pointer;
 }
+
+select:focus-visible {
+    outline: var(--theme-outline);
+}
+
+select:hover {
+    font-weight: bold;
+    color: var(--theme-font-color);
+}
+
+input:focus-visible {
+    outline: var(--theme-outline);
+}
+
+textarea:focus-visible {
+    outline: var(--theme-outline);
+}
+
+/*
+ *  Header
+ */
 
 .todo-header-view {
     position: fixed;
@@ -84,17 +134,18 @@ svg {
     align-items: end;
     font-size: 2rem;
     font-weight: bold;
-    color: white;
-    background-color: #006dfe;
-    box-shadow: 0 5px 5px 0 rgb(127 127 127 / 100%);
+    color: var(--theme-font-header-color);
+    background-color: var(--theme-header-background-color);
+    box-shadow: var(--theme-shadow);
 }
 
 .todo-header-view button {
-    color: white;
+    justify-self: end;
+    color: var(--theme-font-header-color);
 }
 
 .todo-header-view button:hover {
-    color: black;
+    color: var(--theme-font-color);
 }
 
 .todo-icon-theme-light {
@@ -105,9 +156,9 @@ svg {
     display: var(--theme-icon-theme-display-dark);
 }
 
-.todo-icon-theme-dark:hover {
-    color: var(--theme-icon-theme-color);
-}
+/*
+ *  List View
+ */
 
 .todo-list-view {
     position: relative;
@@ -127,28 +178,43 @@ svg {
     grid-template-columns: minmax(0, 10rem) minmax(0, 10rem) minmax(0, 10rem) auto;
     height: 3rem;
     align-items: center;
-    background: white;
+    background: var(--theme-background-color);
 }
 
 .todo-btn-sort-dir {
     font-family: inherit;
     font-size: inherit;
     font-style: italic;
-    color: var(--theme-font-action-color);
+    color: var(--theme-header-background-color);
+}
+
+.todo-btn-sort-dir:hover {
+    font-weight: bold;
+    color: var(--theme-font-color);
 }
 
 .todo-btn-add-new {
     justify-self: end;
+    color: var(--theme-header-background-color);
 }
+
+.todo-btn-add-new:hover {
+    justify-self: end;
+    color: var(--theme-font-color);
+}
+
+/*
+ *  Item List
+ */
 
 .todo-item-list-entry-container {
     padding: 20px;
     margin: 20px;
     display: grid;
-    grid-template-columns: 4rem auto 2rem 2rem;
+    grid-template-columns: 5rem auto 2rem 2rem;
     grid-template-rows: 1rem 1rem 1rem;
     height: 3rem;
-    box-shadow: 0 5px 5px 0 rgb(127 127 127 / 100%);
+    box-shadow: var(--theme-shadow);
 }
 
 .todo-item-list-entry-container svg {
@@ -156,43 +222,43 @@ svg {
 }
 
 .todo-item-list-entry-container[data-prio="5"] {
-    background-color: #f0deff;
+    background-color: var(--theme-item-prio-5);
 }
 
 .todo-item-list-entry-container[data-prio="5"]:hover {
-    background-color: lightskyblue;
+    background-color: var(--theme-item-prio-5-hover);
 }
 
 .todo-item-list-entry-container[data-prio="4"] {
-    background-color: #fdf1c1;
+    background-color: var(--theme-item-prio-4);
 }
 
 .todo-item-list-entry-container[data-prio="4"]:hover {
-    background-color: lightskyblue;
+    background-color: var(--theme-item-prio-4-hover);
 }
 
 .todo-item-list-entry-container[data-prio="3"] {
-    background-color: #f7ffcb;
+    background-color: var(--theme-item-prio-3);
 }
 
 .todo-item-list-entry-container[data-prio="3"]:hover {
-    background-color: lightskyblue;
+    background-color: var(--theme-item-prio-3-hover);
 }
 
 .todo-item-list-entry-container[data-prio="2"] {
-    background-color: lightyellow;
+    background-color: var(--theme-item-prio-2);
 }
 
 .todo-item-list-entry-container[data-prio="2"]:hover {
-    background-color: lightskyblue;
+    background-color: var(--theme-item-prio-2-hover);
 }
 
 .todo-item-list-entry-container[data-prio="1"] {
-    background-color: #f3f3f3;
+    background-color: var(--theme-item-prio-1);
 }
 
 .todo-item-list-entry-container[data-prio="1"]:hover {
-    background-color: lightskyblue;
+    background-color: var(--theme-item-prio-1-hover);
 }
 
 .todo-item-list-entry-due-date {
@@ -231,7 +297,7 @@ svg {
     align-self: end;
     font-size: 0.7rem;
     font-style: italic;
-    color: gray;
+    color: var(--theme-font-disabled);
 }
 
 .todo-item-list-entry-description {
@@ -252,7 +318,7 @@ svg {
 .todo-item-list-entry-btn[data-click="delete"] {
     grid-row: 3;
     grid-column: 3;
-    color: red;
+    color: var(--theme-icon-delete);
 }
 
 .todo-item-list-entry-btn[data-click="edit"] {
@@ -272,14 +338,18 @@ svg {
     font-size: 4rem;
 }
 
+/*
+ *  Edit View
+ */
+
 .todo-edit-view {
     position: fixed;
     overflow: hidden;
     top: 3.5rem;
     left: 0;
     right: 0;
-    margin: 1rem 2rem;
-    padding: 0 0 20px;
+    margin: 10px 20px;
+    padding: 5px 5px 20px;
 }
 
 .todo-edit-item-container {
@@ -299,7 +369,7 @@ svg {
     font-family: inherit;
     font-weight: bold;
     font-size: inherit;
-    color: var(--theme-font-normal-color);
+    color: var(--theme-font-color);
     background-color: var(--theme-background-text-box-color);
     border: 1px solid var(--theme-frame-text-box-color);
     box-sizing: border-box;
@@ -307,13 +377,13 @@ svg {
 }
 
 .todo-edit-item-name label.todo-error {
-    color: red;
+    color: var(--theme-font-error);
     font-style: italic;
     font-weight: bold;
 }
 
 .todo-edit-item-name input.dirty:invalid {
-    background-color: mistyrose;
+    background-color: var(--theme-input-error);
 }
 
 .todo-edit-item-done {
@@ -331,7 +401,7 @@ svg {
     display: block;
     font-family: inherit;
     font-size: inherit;
-    color: var(--theme-font-normal-color);
+    color: var(--theme-font-color);
     background-color: var(--theme-background-text-box-color);
     border: 1px solid var(--theme-frame-text-box-color);
 }
@@ -355,7 +425,7 @@ svg {
     width: 100%;
     font-family: inherit;
     font-size: inherit;
-    color: var(--theme-font-normal-color);
+    color: var(--theme-font-color);
     background-color: var(--theme-background-text-box-color);
     border: 1px solid var(--theme-frame-text-box-color);
 }
@@ -371,15 +441,19 @@ svg {
     margin-left: 1rem;
     height: 1.7rem;
     width: 7rem;
-    color: white;
-    background-color: #006dfe;
+    color: var(--theme-background-color);
+    background-color: var(--theme-header-background-color);
     border: none;
     border-radius: 0.7rem;
 }
 
 .todo-edit-view .todo-edit-item-actions button:hover {
-    background-color: black;
+    background-color: var(--theme-button-hover);
 }
+
+/*
+ * Footer
+ */
 
 .todo-footer {
     position: fixed;
@@ -390,6 +464,7 @@ svg {
     padding: 10px 30px;
     font-size: 0.7rem;
     font-style: italic;
-    background: lightgray;
-    box-shadow: 5px 5px 5px 5px rgb(127 127 127 / 100%);
+    color: var(--theme-footer-font-color);
+    background: var(--theme-footer-background-color);
+    box-shadow: var(--theme-shadow-footer);
 }

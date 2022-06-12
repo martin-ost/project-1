@@ -43,16 +43,16 @@
                 <div class="todo-item-list-entry-description">
                     {{description}}
                 </div>
-                <button class="todo-item-list-entry-btn" data-id="{{id}}" data-click="edit">
-                    <svg viewBox="0 0 48 48" width="20"
-                         height="20">
-                        <use href="./styles/icons.svg#edit"></use>
-                    </svg>
-                </button>
                 <button class="todo-item-list-entry-btn" data-id="{{id}}" data-click="delete">
                     <svg viewBox="0 0 48 48" width="20"
                          height="20">
                         <use href="./styles/icons.svg#delete"></use>
+                    </svg>
+                </button>
+                <button class="todo-item-list-entry-btn" data-id="{{id}}" data-click="edit">
+                    <svg viewBox="0 0 48 48" width="20"
+                         height="20">
+                        <use href="./styles/icons.svg#edit"></use>
                     </svg>
                 </button>
             </section>
@@ -88,7 +88,7 @@
 <main>
     <section class="todo-list-view" data-id="todo-list-container">
         <section class="todo-action-bar-container">
-            <label class="todo-select">Sortierung:
+            <label>Sortierung:
                 <select name="todo-sel-sort" data-id="todo-sel-sort">
                     <option value="priority" selected>Priorität</option>
                     <option value="due-date">Fälligkeit</option>
