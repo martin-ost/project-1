@@ -14,12 +14,15 @@
 // - Check js code according to Google guidelines.
 // - How to define Handlebars in js code?
 // - Rethink use validity for name label.
+// - Use '#' instead of '_' for private members
+// - Check import '{...}'.
 
+// import { TodoTestService } from './service/todo-test-service.js';
 import { TodoService } from './service/todo-service.js';
-import { testNotes } from "./test/todo-test-data.js";
 import { TodoMainController } from './controller/todo-main-controller.js';
 
-const store = new TodoService();
-testNotes.map(n => store.addNote(n));
+//const store = new TodoTestService();
+//testNotes.map(n => store.addNote(n));
 
+const store = new TodoService();
 new TodoMainController(store).init();

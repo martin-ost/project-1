@@ -16,17 +16,17 @@ export class TodoListController {
         this._filterSel = document.querySelector('[data-id="todo-sel-filter"]');
         this._addNewBtn = document.querySelector('[data-id="todo-btn-add-new"]');
 
-        this._curSortDir = 'ascending'; // toggle button
+        this._curSortDir = '+1';
         this._sort2DirDescendingTxt = new Map([
             ['priority', "Dringend..."],
             ['name', "A...Z"],
-            ['creation-date', "Neu..."],
-            ['due-date', "Zuerst..."]]);
+            ['creationTime', "Neu..."],
+            ['dueDate', "Zuerst..."]]);
         this._sort2DirAscendingTxt = new Map([
             ['priority', "Egal..."],
             ['name', "Z...A"],
-            ['creation-date', "Alt..."],
-            ['due-date', "Zuletzt..."]]);
+            ['creationTime', "Alt..."],
+            ['dueDate', "Zuletzt..."]]);
     }
 
     _onSortChange() {
@@ -47,35 +47,33 @@ export class TodoListController {
         this._mainCtrl.displayEditView();
     }
 
-    _onItemClick(event) {
+    async _onItemClick(event) {
         if (event.target.dataset.click === 'edit') {
             this._mainCtrl.displayEditView(event.target.dataset.id);
         } else if (event.target.dataset.click === 'delete') {
-            this._store.deleteNoteById(event.target.dataset.id);
+            await this._store.deleteNoteById(event.target.dataset.id);
             this._render();
         }
     }
 
-    _onDoneChange(event) {
-        const note = this._store.getNoteById(event.target.dataset.id);
-        note.done = true;
-        this._store.updateNote(note);
+    async _onDoneChange(event) {
+        await this._store.updateNote({_id: event.target.dataset.id, done: true});
         this._render();
     }
 
     _setSortDir() {
-        if (this._curSortDir === 'ascending') {
+        if (this._curSortDir === '+1') {
             this._sortDirBtn.textContent = this._sort2DirAscendingTxt.get(this._sortSel.value);
-            this._curSortDir = 'descending';
+            this._curSortDir = '-1';
         } else {
             this._sortDirBtn.textContent = this._sort2DirDescendingTxt.get(this._sortSel.value);
-            this._curSortDir = 'ascending';
+            this._curSortDir = '+1';
         }
     }
 
-    _render() {
-        const notes = this._store.getNotes(this._sortSel.value, this._curSortDir, this._filterSel.value);
-        this._itemListCtrl.render(notes);
+    async _render() {
+        this._itemListCtrl.render(
+            await this._store.getNotes(this._sortSel.value, this._curSortDir, this._filterSel.value));
     }
 
     init() {

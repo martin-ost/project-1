@@ -14,24 +14,20 @@ export class TodoMainController {
         this._themeBtn = document.querySelector ('[data-id="todo-btn-theme"]');
         this._infoBtn = document.querySelector ('[data-id="todo-btn-info"]');
 
-        this._curTheme = undefined;
+        this._curTheme = undefined; // this._listCtrl
     }
 
     _onThemeClick() {
-        this._toggleTheme();
+        if (this._curTheme === 'light')
+            this._setTheme('dark');
+        else
+            this._setTheme('light');
     }
 
     // eslint-disable-next-line class-methods-use-this
     _onInfoClick() {
         // todo: implement info view
         window.console.log("info view not implemented yet");
-    }
-
-    _toggleTheme() {
-        if (this._curTheme === 'light')
-            this._setTheme('dark');
-        else
-            this._setTheme('light');
     }
 
     _setTheme(theme) {
@@ -44,10 +40,12 @@ export class TodoMainController {
             'click', (event) => { this._onThemeClick(event); });
         this._infoBtn.addEventListener(
             'click', (event) => { this._onInfoClick(event); });
-        this._setTheme('light');
+
         this._editCtrl.init();
         this._listCtrl.init();
-        this._curCtrl = this._listCtrl;
+
+        this._curCtrl = this._listCtrl; // remove
+        this._setTheme('light');
         this.displayListView();
     }
 
@@ -57,7 +55,7 @@ export class TodoMainController {
         this._listCtrl.display()
     }
 
-    displayEditView(id=0) {
+    displayEditView(id="") {
         this._curCtrl.hide();
         this._curCtrl = this._editCtrl;
         this._editCtrl.display(id)

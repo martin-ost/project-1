@@ -9,11 +9,11 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,200&family=Roboto:wght@300&display=swap">
 
-    <link rel="stylesheet" href="styles/reset.css">
-    <link rel="stylesheet" href="styles/todo.css">
+    <link rel="stylesheet" href="./styles/reset.css">
+    <link rel="stylesheet" href="./styles/todo.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js" defer></script>
-    <script src="scripts/todo.js" type="module" defer></script>
+    <script src="./scripts/todo.js" type="module" defer></script>
 
     <script data-id="todo-item-list-template" type="text/x-handlebars-template">
         {{#each this}}
@@ -27,11 +27,11 @@
                 </div>
                 <div class="todo-item-list-entry-done">
                     {{#if done}}
-                        <label for="done-{{id}}">Erledigt</label>
+                        <label for="done-{{_id}}">Erledigt</label>
                         <input type="checkbox" id="done-{{id}}" name="done" disabled="disabled" checked>
                     {{^}}
-                        <label for="done-{{id}}">Pendent</label>
-                        <input type="checkbox" id="done-{{id}}" data-id="{{id}}" name="done">
+                        <label for="done-{{_id}}">Pendent</label>
+                        <input type="checkbox" id="done-{{_id}}" data-id="{{_id}}" name="done">
                     {{/if}}
                 </div>
                 <div class="todo-item-list-entry-priority">
@@ -43,16 +43,16 @@
                 <div class="todo-item-list-entry-description">
                     {{description}}
                 </div>
-                <button class="todo-item-list-entry-btn" data-id="{{id}}" data-click="delete">
+                <button class="todo-item-list-entry-btn" data-id="{{_id}}" data-click="delete">
                     <svg viewBox="0 0 48 48" width="20"
                          height="20">
-                        <use href="./styles/icons.svg#delete"></use>
+                        <use href="/styles/icons.svg#delete"></use>
                     </svg>
                 </button>
-                <button class="todo-item-list-entry-btn" data-id="{{id}}" data-click="edit">
+                <button class="todo-item-list-entry-btn" data-id="{{_id}}" data-click="edit">
                     <svg viewBox="0 0 48 48" width="20"
                          height="20">
-                        <use href="./styles/icons.svg#edit"></use>
+                        <use href="/styles/icons.svg#edit"></use>
                     </svg>
                 </button>
             </section>
@@ -74,26 +74,25 @@
                 <use href="./styles/icons.svg#light"></use>
             </svg>
             <svg class="todo-icon-theme-dark" viewBox="0 0 24 24" width="24" height="24">
-                <use href="./styles/icons.svg#dark"></use>
+                <use href="/styles/icons.svg#dark"></use>
             </svg>
         </button>
         <button data-click="info" data-id="todo-btn-info">
             <svg viewBox="0 0 48 48" width="24" height="24">
-                <use href="./styles/icons.svg#info"></use>
+                <use href="/styles/icons.svg#info"></use>
             </svg>
         </button>
     </section>
 </header>
-
 <main>
     <section class="todo-list-view" data-id="todo-list-container">
         <section class="todo-action-bar-container">
             <label>Sortierung:
                 <select name="todo-sel-sort" data-id="todo-sel-sort">
                     <option value="priority" selected>Priorität</option>
-                    <option value="due-date">Fälligkeit</option>
+                    <option value="dueDate">Fälligkeit</option>
                     <option value="name">Name</option>
-                    <option value="creation-date">Erstellung</option>
+                    <option value="creationTime">Erstellung</option>
                 </select>
             </label>
             <label>Richtung:
@@ -108,7 +107,7 @@
             </label>
             <button class="todo-btn-add-new" data-id="todo-btn-add-new">
                 <svg viewBox="0 0 48 48" width="24" height="24">
-                    <use href="./styles/icons.svg#add"></use>
+                    <use href="/styles/icons.svg#add"></use>
                 </svg>
             </button>
         </section>
