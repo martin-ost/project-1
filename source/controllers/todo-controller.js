@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import { todoStore } from '../services/todo-store.js'
 
 class TodoController {

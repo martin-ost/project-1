@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import express from 'express';
 import { todoController } from "../controllers/todo-controller.js";
 

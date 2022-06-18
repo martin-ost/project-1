@@ -13,28 +13,28 @@ export class TodoService {
 
     // eslint-disable-next-line no-unused-vars
 
-    async getNotes(orderBy, orderDir, filterBy) { // static
+    static async getNotes(orderBy, orderDir, filterBy) { // static
         return TodoService._ajax("GET",
             `/notes/?orderBy=${orderBy}&orderDir=${orderDir}&filterBy=${filterBy}`, undefined); // remove undefined
     }
 
-    async getNoteById(id) {
+    static async getNoteById(id) {
         return TodoService._ajax("GET", `/notes/${id}`, undefined);
     }
 
-    async getState() {
+    static async getState() {
         return TodoService._ajax("HEAD", "/state/");
     }
 
-    async addNote(note) {
+    static async addNote(note) {
         return TodoService._ajax("POST", "/notes/", {note: note});
     }
 
-    async updateNote(note) {
+    static async updateNote(note) {
         return TodoService._ajax("PUT", "/notes/", {note: note});
     }
 
-    async deleteNoteById(id) {
+    static async deleteNoteById(id) {
         return TodoService._ajax("DELETE", `/notes/${id}`);
     }
 }
