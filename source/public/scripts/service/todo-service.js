@@ -8,7 +8,7 @@ export class TodoService {
             method: method,
             headers: fetchHeaders,
             body: JSON.stringify(data)
-        }).then(x => x.json());
+        }).then(x => x.json()); // catch
     }
 
     // eslint-disable-next-line no-unused-vars

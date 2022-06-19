@@ -20,7 +20,7 @@ class TodoController {
             res.json(await store.get(req.params.id));
         };
         this.deleteNote = async (req, res) => {
-            res.json(await store.delete(req.params.id)); // TODO should return 402 if not ok
+            res.json(await store.delete(req.params.id)); // TODO should return 404 if not ok
         };
     }
 }

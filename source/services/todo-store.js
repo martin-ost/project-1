@@ -1,5 +1,9 @@
 /* eslint-disable no-underscore-dangle,import/prefer-default-export */
+
+// https://github.com/bajankristof/nedb-promises
+// https://github.com/bajankristof/nedb-promises/blob/master/docs.md
 import Datastore from 'nedb-promises';
+
 
 class TodoStore {
 
