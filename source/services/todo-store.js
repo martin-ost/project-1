@@ -4,8 +4,8 @@ import Datastore from 'nedb-promises';
 class TodoStore {
 
     constructor() {
-        const options = { filename: './data/todo-notes.db', autoload: true };
-        this.db = new Datastore(options);
+        const _options = { filename: './data/todo-notes.db', autoload: true };
+        this._db = new Datastore(_options);
         this._revision = 0;
     }
 
@@ -25,26 +25,27 @@ class TodoStore {
     }
 
     async add(note) {
-        await this.db.insert(note);
+        await this._db.insert(note);
         return this._revision++;
     }
 
     async update(note) {
-        await this.db.update({ _id: (note._id) }, {$set: note});
+        await this._db.update({ _id: (note._id) }, {$set: note});
         return this._revision++;
     }
 
     async delete(id) {
-        await this.db.remove({ _id: id });
-        return this._revision++;
+        const num = await this._db.remove({ _id: id }, {});
+        if (num !== 0) this._revision++;
+        return { revision: this._revision, numDeleted: num };
     }
 
     async get(id) {
-        return this.db.findOne({_id: id});
+        return this._db.findOne({_id: id});
     }
 
     async all(orderBy, orderDir, filterBy) {
-        return this.db.find(TodoStore._getFilter(filterBy)).sort({[orderBy]:orderDir}).exec();
+        return this._db.find(TodoStore._getFilter(filterBy)).sort({[orderBy]:orderDir}).exec();
     }
 }
 

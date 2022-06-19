@@ -17,9 +17,6 @@
 // - Use '#' instead of '_' for private members
 // - Use HTML/CSS Checker
 
-// import { TodoTestService } from './service/todo-test-service.js';
-import { TodoService } from './service/todo-service.js';
 import { TodoMainController } from './controller/todo-main-controller.js';
 
-const store = new TodoService();
-new TodoMainController(store).init();
+new TodoMainController().init();

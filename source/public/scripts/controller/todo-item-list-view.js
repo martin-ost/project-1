@@ -1,10 +1,10 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable import/prefer-default-export */
+/* eslint-disable import/prefer-default-export,no-underscore-dangle */
 
 export class TodoItemListView {
 
     constructor() {
         this._itemListContainer = document.querySelector('[data-id="todo-item-list-container"]');
+        // eslint-disable-next-line no-undef
         this._itemListTemplateCompiled = Handlebars.compile(
             document.querySelector('[data-id="todo-item-list-template"]').innerHTML);
     }
@@ -30,11 +30,15 @@ export class TodoItemListView {
         return "↯".repeat(priority);
     }
 
+    // eslint-disable-next-line class-methods-use-this
     init() {
+        // eslint-disable-next-line no-undef
         Handlebars.registerHelper('print_due_date',
             (date) => TodoItemListView._getDueDateView(date));
+        // eslint-disable-next-line no-undef
         Handlebars.registerHelper('print_priority',
             (priority) => TodoItemListView._getPriorityView(priority));
+        // eslint-disable-next-line no-undef
         Handlebars.registerHelper('print_creation_time',
             (time) => TodoItemListView._getCreationTimeView(time));
     }

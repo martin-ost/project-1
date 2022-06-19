@@ -2,15 +2,18 @@
 /* eslint-disable import/prefer-default-export */
 
 import { TodoItemListView } from './todo-item-list-view.js';
+import { TodoService } from '../service/todo-service.js';
 
 export class TodoListController {
-    constructor(store, mainCtrl) {
-        this._store = store;
+
+    constructor(mainCtrl) {
+        this._ASCENDING_ORDER = '+1';
+        this._DECENDING_ORDER = '-1';
         this._mainCtrl = mainCtrl;
 
         this._listContainer = document.querySelector('[data-id="todo-list-container"]');
         this._itemListContainer = document.querySelector('[data-id="todo-item-list-container"]');
-        this._itemListCtrl = new TodoItemListView(store);
+        this._itemListCtrl = new TodoItemListView();
         this._sortSel = document.querySelector('[data-id="todo-sel-sort"]');
         this._sortDirBtn = document.querySelector('[data-id="todo-btn-sort-dir"]');
         this._filterSel = document.querySelector('[data-id="todo-sel-filter"]');
@@ -31,16 +34,16 @@ export class TodoListController {
 
     _onSortChange() {
         this._setSortDir(); // direction text depends on sort criteria
-        this._render();
+        this._render().finally();
     }
 
     _onSortDirClick() {
         this._setSortDir();
-        this._render();
+        this._render().finally();
     }
 
     _onFilterChange() {
-        this._render();
+        this._render().finally();
     }
 
     _onAddNewClick() {
@@ -51,29 +54,45 @@ export class TodoListController {
         if (event.target.dataset.click === 'edit') {
             this._mainCtrl.displayEditView(event.target.dataset.id);
         } else if (event.target.dataset.click === 'delete') {
-            await this._store.deleteNoteById(event.target.dataset.id);
-            this._render();
+            try {
+                const revision = await TodoService.deleteNoteById(event.target.dataset.id);
+                console.log(revision);
+                this._render().finally();
+            } catch(err) {
+                console.log("fuck")
+                this._mainCtrl.screech("Communication Failure", err);
+            }
         }
     }
 
     async _onDoneChange(event) {
-        await this._store.updateNote({_id: event.target.dataset.id, done: true});
-        this._render();
+        try {
+            await TodoService.updateNote({_id: event.target.dataset.id, done: true});
+            this._render().finally();
+        } catch (err) {
+            this._mainCtrl.screech("Communication Failure", err);
+        }
     }
 
     _setSortDir() {
-        if (this._curSortDir === '+1') {
+        if (this._curSortDir === this._ASCENDING_ORDER) {
+            // noinspection JSValidateTypes
             this._sortDirBtn.textContent = this._sort2DirAscendingTxt.get(this._sortSel.value);
-            this._curSortDir = '-1';
+            this._curSortDir = this._DECENDING_ORDER;
         } else {
+            // noinspection JSValidateTypes
             this._sortDirBtn.textContent = this._sort2DirDescendingTxt.get(this._sortSel.value);
-            this._curSortDir = '+1';
+            this._curSortDir = this._ASCENDING_ORDER;
         }
     }
 
     async _render() {
-        this._itemListCtrl.render(
-            await this._store.getNotes(this._sortSel.value, this._curSortDir, this._filterSel.value));
+        try {
+            this._itemListCtrl.render(
+                await TodoService.getNotes(this._sortSel.value, this._curSortDir, this._filterSel.value));
+        } catch (err) {
+            this._mainCtrl.screech("Communication Failure", err);
+        }
     }
 
     init() {
@@ -87,9 +106,9 @@ export class TodoListController {
             'click', (event) => { this._onAddNewClick(event); });
 
         this._itemListContainer.addEventListener(
-            'click', (event) => { this._onItemClick(event); });
+            'click', (event) => { this._onItemClick(event).finally(); });
         this._itemListContainer.addEventListener(
-            'change', (event) => { this._onDoneChange(event); });
+            'change', (event) => { this._onDoneChange(event).finally(); });
 
         this._itemListCtrl.init();
         this._setSortDir();
@@ -101,7 +120,7 @@ export class TodoListController {
     }
 
     display() {
-        this._render();
+        this._render().finally();
         this._listContainer.style.display = 'block';
     }
 }

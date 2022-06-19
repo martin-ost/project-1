@@ -1,40 +1,44 @@
 /* eslint-disable no-underscore-dangle,import/prefer-default-export,object-shorthand */
 
 export class TodoService {
-    static _ajax(method, url, data, headers) {
-        window.console.log(method, url, data, headers);
-        const fetchHeaders = new Headers({'content-type': 'application/json', ...(headers || {})});
-        return fetch(url, {
-            method: method,
-            headers: fetchHeaders,
-            body: JSON.stringify(data)
-        }).then(x => x.json());
+
+    static _log(msg) {
+        if (true) console.log(msg);
     }
 
-    // eslint-disable-next-line no-unused-vars
+    static _request(method, url, data, headers) {
+        TodoService._log(`${method}, ${url}, ${data}, ${headers}`);
+        const fetchHeaders = new Headers({'content-type': 'application/json', ...(headers || {})});
+        return fetch(url, { method: method, headers: fetchHeaders, body: JSON.stringify(data) })
+            .then(rsp => {
+                TodoService._log(rsp);
+                if (rsp.status >= 400) throw new Error(`${rsp.status}:${rsp.statusText}`);
+                return rsp.json();
+            });
+    }
 
     static async getNotes(orderBy, orderDir, filterBy) { // static
-        return TodoService._ajax("GET",
+        return TodoService._request("GET",
             `/notes/?orderBy=${orderBy}&orderDir=${orderDir}&filterBy=${filterBy}`, undefined); // remove undefined
     }
 
-    static async getNoteById(id) {
-        return TodoService._ajax("GET", `/notes/${id}`, undefined);
+    static getNoteById(id) {
+        return TodoService._request("GET", `/notes/${id}`, undefined);
     }
 
-    static async getState() {
-        return TodoService._ajax("HEAD", "/state/");
+    static async getRevision() {
+        return TodoService._request("HEAD", "/revision/");
     }
 
     static async addNote(note) {
-        return TodoService._ajax("POST", "/notes/", {note: note});
+        return TodoService._request("POST", "/notes/", {note: note});
     }
 
     static async updateNote(note) {
-        return TodoService._ajax("PUT", "/notes/", {note: note});
+        return TodoService._request("PUT", "/notes/", {note: note});
     }
 
     static async deleteNoteById(id) {
-        return TodoService._ajax("DELETE", `/notes/${id}`);
+        return TodoService._request("DELETE", `/notes/${id}`);
     }
 }

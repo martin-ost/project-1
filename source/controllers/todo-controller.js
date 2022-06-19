@@ -4,8 +4,8 @@ import { todoStore } from '../services/todo-store.js'
 
 class TodoController {
     constructor(store) {
-        this.getState = async (req, res) => {
-            res.json(await store.state());
+        this.getRevision = async (req, res) => {
+            res.json(await store.revision());
         };
         this.addNote = async (req, res) => {
             res.json(await store.add(req.body.note));
@@ -20,8 +20,10 @@ class TodoController {
             res.json(await store.get(req.params.id));
         };
         this.deleteNote = async (req, res) => {
-            res.json(await store.delete(req.params.id)); // TODO should return 402 if not ok
-        };
+            const result = await store.delete(req.params.id);
+            if (result.numDeleted === 0) res.sendStatus(404); // not found
+            return res.json(result.revision);
+        }
     }
 }
 

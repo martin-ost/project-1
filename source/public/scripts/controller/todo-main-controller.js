@@ -6,9 +6,9 @@ import { TodoEditController } from './todo-edit-controller.js';
 
 export class TodoMainController {
 
-    constructor(store) {
-        this._listCtrl = new TodoListController(store, this)
-        this._editCtrl = new TodoEditController(store, this);
+    constructor() {
+        this._listCtrl = new TodoListController(this)
+        this._editCtrl = new TodoEditController(this);
         this._curCtrl = undefined;
 
         this._themeBtn = document.querySelector ('[data-id="todo-btn-theme"]');
@@ -59,6 +59,11 @@ export class TodoMainController {
         this._curCtrl.hide();
         this._curCtrl = this._editCtrl;
         this._editCtrl.display(id)
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    screech(msg, err) {
+        window.console.log(msg, err);
     }
 }
 

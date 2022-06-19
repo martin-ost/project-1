@@ -1,10 +1,11 @@
 /* eslint-disable no-underscore-dangle,import/named,class-methods-use-this */
 /* eslint-disable import/prefer-default-export */
 
+import { TodoService  } from '../service/todo-service.js';
+
 export class TodoEditController {
 
-    constructor(store, mainCtrl) {
-        this._store = store;
+    constructor(mainCtrl) {
         this._mainCtrl = mainCtrl;
 
         this._itemEditContainer = document.querySelector('[data-id="todo-item-edit-container"]');
@@ -26,7 +27,7 @@ export class TodoEditController {
 
     _onResetClick() {
         if (this._curId)
-            this._reset();
+            this._reset().finally();
         else
             this._default();
     }
@@ -37,7 +38,7 @@ export class TodoEditController {
 
     _onSaveClick() {
         if (!this._validate()) return;
-        this._save();
+        this._save().finally();
         this._finish();
     }
 
@@ -62,13 +63,21 @@ export class TodoEditController {
 
     async _reset() {
         this._clearError();
-        const note = await this._store.getNoteById(this._curId);
-        this._nameInput.value = note.name;
-        this._descriptionTxt.value = note.description;
-        this._dueDatePick.value = new Date(note.dueDate).toISOString().substring(0, 10);
-        this._prioRadio.querySelector(`input[value="${note.priority}"]`).checked = true;
-        this._doneTick.checked = note.done;
-        this._creationTime = note.creationTime; // creation time is not changed by update
+        try {
+            const note = await TodoService.getNoteById(this._curId);
+            if (note) {
+                this._nameInput.value = note.name;
+                this._descriptionTxt.value = note.description;
+                this._dueDatePick.value = new Date(note.dueDate).toISOString().substring(0, 10);
+                this._prioRadio.querySelector(`input[value="${note.priority}"]`).checked = true;
+                this._doneTick.checked = note.done;
+                this._creationTime = note.creationTime; // creation time is not changed by update
+            } else {
+                this._default(); // no entry found
+            }
+        } catch(err) {
+            this._mainCtrl.screech("Communication Failure", err);
+        }
     }
 
     _clearError() {
@@ -93,22 +102,25 @@ export class TodoEditController {
         return true;
     }
 
-    _save() {
-        const note = {
-            name: this._nameInput.value,
-            description: this._descriptionTxt.value,
-            dueDate: new Date(this._dueDatePick.value).getTime(),
-            done: this._doneTick.checked
-        }
+    async _save() {
+        const note = {};
+        note.name =  this._nameInput.value;
+        note.description = this._descriptionTxt.value;
+        note.dueDate = new Date(this._dueDatePick.value).getTime();
+        note.done = this._doneTick.checked;
         this._prioRadio.querySelectorAll('input').forEach(
             (radio) => { if (radio.checked) note.priority = radio.value; });
-        if (this._curId) {
-            note._id = this._curId;
-            note.creationTime = this._creationTime;  // existing note: creation time is not changed by update
-            this._store.updateNote(note);
-        } else {
-            note.creationTime = new Date().getTime(); // new note: creation is now
-            this._store.addNote(note);
+        try {
+            if (this._curId) {
+                note._id = this._curId; // existing note: ID already assigned
+                note.creationTime = this._creationTime;  // existing note: creation time is not changed by update
+                await TodoService.updateNote(note);
+            } else {
+                note.creationTime = new Date().getTime(); // new note: creation is now
+                await TodoService.addNote(note);
+            }
+        } catch (err) {
+            this._mainCtrl.screech("Communication Failure", err);
         }
     }
 
@@ -135,12 +147,12 @@ export class TodoEditController {
         this._itemEditContainer.style.display = 'none';
     }
 
-    display(id) { // undefined
+     display(id=undefined) { // undefined
         this._curId = id;
-        if (id === "")
-            this._default(); // new note
+        if (id)
+            this._reset().finally(); // existing note
         else
-            this._reset(); // existing note
+            this._default(); // new note
         this._itemEditContainer.style.display = 'block';
     }
 }
