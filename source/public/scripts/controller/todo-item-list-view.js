@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export,no-underscore-dangle */
-
 export class TodoItemListView {
 
     constructor() {

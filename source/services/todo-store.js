@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle,import/prefer-default-export */
 import Datastore from 'nedb-promises';
 
 class TodoStore {

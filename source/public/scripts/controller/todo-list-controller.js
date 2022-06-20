@@ -1,8 +1,5 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable import/prefer-default-export */
-
-import { TodoItemListView } from './todo-item-list-view.js';
-import { TodoService } from '../service/todo-service.js';
+import {TodoItemListView} from './todo-item-list-view.js';
+import {TodoService} from '../service/todo-service.js';
 
 export class TodoListController {
 
@@ -51,17 +48,16 @@ export class TodoListController {
     }
 
     async _onItemClick(event) {
-        if (event.target.dataset.click === 'edit') {
-            this._mainCtrl.displayEditView(event.target.dataset.id);
-        } else if (event.target.dataset.click === 'delete') {
-            try {
-                const revision = await TodoService.deleteNoteById(event.target.dataset.id);
-                console.log(revision);
-                this._render().finally();
-            } catch(err) {
-                console.log("fuck")
-                this._mainCtrl.screech("Communication Failure", err);
+        try {
+            if (event.target.dataset.click === 'edit') {
+                this._mainCtrl.displayEditView(event.target.dataset.id);
             }
+            else if (event.target.dataset.click === 'delete') {
+                await TodoService.deleteNoteById(event.target.dataset.id);
+                this._render().finally();
+            }
+        } catch (err) {
+            this._mainCtrl.screech("Communication Failure", err);
         }
     }
 
@@ -88,27 +84,39 @@ export class TodoListController {
 
     async _render() {
         try {
-            this._itemListCtrl.render(
-                await TodoService.getNotes(this._sortSel.value, this._curSortDir, this._filterSel.value));
-        } catch (err) {
+            const notes = await TodoService.getNotes(this._sortSel.value, this._curSortDir, this._filterSel.value);
+            this._itemListCtrl.render(notes);
+        } catch(err) {
             this._mainCtrl.screech("Communication Failure", err);
         }
     }
 
     init() {
         this._sortSel.addEventListener(
-            'change', (event) => { this._onSortChange(event); });
+            'change', (event) => {
+                this._onSortChange(event);
+            });
         this._sortDirBtn.addEventListener(
-            'click', (event) => { this._onSortDirClick(event); });
+            'click', (event) => {
+                this._onSortDirClick(event);
+            });
         this._filterSel.addEventListener(
-            'change', (event) => { this._onFilterChange(event); });
+            'change', (event) => {
+                this._onFilterChange(event);
+            });
         this._addNewBtn.addEventListener(
-            'click', (event) => { this._onAddNewClick(event); });
+            'click', (event) => {
+                this._onAddNewClick(event);
+            });
 
         this._itemListContainer.addEventListener(
-            'click', (event) => { this._onItemClick(event).finally(); });
+            'click', (event) => {
+                this._onItemClick(event).finally();
+            });
         this._itemListContainer.addEventListener(
-            'change', (event) => { this._onDoneChange(event).finally(); });
+            'change', (event) => {
+                this._onDoneChange(event).finally();
+            });
 
         this._itemListCtrl.init();
         this._setSortDir();

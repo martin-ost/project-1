@@ -327,11 +327,15 @@ textarea:focus-visible {
 }
 
 .todo-item-list-no-entry {
-    padding: 20px;
     display: grid;
-    align-items: center;
-    height: 4rem;
-    font-size: 4rem;
+    justify-content: center;
+    color: var(--theme-footer-background-color);
+}
+
+.todo-item-list-no-entry div {
+    justify-self: center;
+    font-size: 3rem;
+    font-style: italic;
 }
 
 /*
@@ -463,4 +467,20 @@ textarea:focus-visible {
     color: var(--theme-footer-font-color);
     background: var(--theme-footer-background-color);
     box-shadow: var(--theme-shadow-footer);
+}
+
+/*
+ * System Failure
+ */
+
+.todo-system-failure {
+    display: grid;
+    justify-content: center;
+    color: red;
+}
+
+.todo-system-failure div {
+    justify-self: center;
+    font-size: 3rem;
+    font-style: italic;
 }

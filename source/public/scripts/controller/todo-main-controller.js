@@ -1,6 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable import/prefer-default-export */
-
 import { TodoListController } from './todo-list-controller.js';
 import { TodoEditController } from './todo-edit-controller.js';
 
@@ -13,8 +10,13 @@ export class TodoMainController {
 
         this._themeBtn = document.querySelector ('[data-id="todo-btn-theme"]');
         this._infoBtn = document.querySelector ('[data-id="todo-btn-info"]');
+        this._headerContainer = document.querySelector ('[data-id="todo-header-container"]');
+        this._errorContainer = document.querySelector ('[data-id="todo-system-failure-container"]');
+        this._footerContainer = document.querySelector ('[data-id="todo-footer-container"]');
 
-        this._curTheme = undefined; // this._listCtrl
+        this._curCtrl = undefined;
+        this._curTheme = undefined;
+        this._errorContainer.style.display = 'none';
     }
 
     _onThemeClick() {
@@ -26,7 +28,7 @@ export class TodoMainController {
 
     // eslint-disable-next-line class-methods-use-this
     _onInfoClick() {
-        // todo: implement info view
+        // Todo: implement info view
         window.console.log("info view not implemented yet");
     }
 
@@ -43,8 +45,8 @@ export class TodoMainController {
 
         this._editCtrl.init();
         this._listCtrl.init();
+        this._curCtrl = this._listCtrl;
 
-        this._curCtrl = this._listCtrl; // remove
         this._setTheme('light');
         this.displayListView();
     }
@@ -63,7 +65,10 @@ export class TodoMainController {
 
     // eslint-disable-next-line class-methods-use-this
     screech(msg, err) {
-        window.console.log(msg, err);
+        this._curCtrl.hide();
+        this._headerContainer.style.display = 'none';
+        this._footerContainer.style.display = 'none';
+        this._errorContainer.style.display = 'grid';
+        console.error(`${msg}: ${err}`);
     }
 }
-

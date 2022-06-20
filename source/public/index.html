@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>CAS-FEE 2022 / Projekt 1 / Martin Frey</title>
+    <link rel="icon" type="image/x-icon" href="./styles/favicon.ico">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,30 +45,31 @@
                     {{description}}
                 </div>
                 <button class="todo-item-list-entry-btn" data-id="{{_id}}" data-click="delete">
-                    <svg viewBox="0 0 48 48" width="20"
-                         height="20">
+                    <svg viewBox="0 0 48 48" width="20" height="20">
                         <use href="/styles/icons.svg#delete"></use>
                     </svg>
                 </button>
                 <button class="todo-item-list-entry-btn" data-id="{{_id}}" data-click="edit">
-                    <svg viewBox="0 0 48 48" width="20"
-                         height="20">
+                    <svg viewBox="0 0 48 48" width="20" height="20">
                         <use href="/styles/icons.svg#edit"></use>
                     </svg>
                 </button>
             </section>
         {{else}}
             <section class="todo-item-list-no-entry">
-                Keine Pendenzen vorhanden!
+                <svg viewBox="0 0 48 48" width="500" height="500">
+                    <use href="/styles/icons.svg#empty"></use>
+                </svg>
+                <div>Relax!</div>
             </section>
         {{/each}}
     </script>
-
 </head>
 
 <body>
+
 <header>
-    <section class="todo-header-view">
+    <section class="todo-header-view" data-id="todo-header-container">
         <div>Pendenzenliste</div>
         <button data-click="theme" data-id="todo-btn-theme">
             <svg class="todo-icon-theme-light" viewBox="0 0 24 24" width="24" height="24">
@@ -84,6 +86,7 @@
         </button>
     </section>
 </header>
+
 <main>
     <section class="todo-list-view" data-id="todo-list-container">
         <section class="todo-action-bar-container">
@@ -154,11 +157,19 @@
         </div>
     </form>
 </main>
+
 <footer>
-    <section class="todo-footer">
+    <section class="todo-footer" data-id="todo-footer-container">
         CAS-FEE-2022 / Project 1 / Martin Frey
     </section>
 </footer>
+
+<section class="todo-system-failure" data-id="todo-system-failure-container" >
+    <svg viewBox="0 0 48 48" width="500" height="500">
+        <use href="/styles/icons.svg#failure"></use>
+    </svg>
+    <div>Systemfehler!</div>
+</section>
 
 </body>
 </html>
