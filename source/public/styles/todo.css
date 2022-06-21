@@ -444,7 +444,8 @@ textarea:focus-visible {
     color: var(--theme-background-color);
     background-color: var(--theme-header-background-color);
     border: none;
-    border-radius: 0.7rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
 }
 
 .todo-edit-view .todo-edit-item-actions button:hover {
@@ -456,6 +457,8 @@ textarea:focus-visible {
  */
 
 .todo-footer {
+    display: grid;
+    grid-template-columns: auto 2rem;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -469,12 +472,17 @@ textarea:focus-visible {
     box-shadow: var(--theme-shadow-footer);
 }
 
+.todo-issue-counter {
+    justify-self: right;
+    font-weight: bold;
+}
+
 /*
  * System Failure
  */
 
 .todo-system-failure {
-    display: grid;
+    display: none;
     justify-content: center;
     color: red;
 }

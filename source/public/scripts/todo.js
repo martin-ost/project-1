@@ -11,6 +11,6 @@
 // - Check js code according to Google guidelines.
 // - Rethink use validity for name label.
 
-import { TodoMainController } from './controller/todo-main-controller.js';
+import TodoMainController from './controller/todo-main-controller.js';
 
 new TodoMainController().init();

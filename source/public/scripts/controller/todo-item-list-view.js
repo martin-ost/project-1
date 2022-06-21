@@ -1,4 +1,4 @@
-export class TodoItemListView {
+export default class TodoItemListView {
 
     constructor() {
         this._itemListContainer = document.querySelector('[data-id="todo-item-list-container"]');

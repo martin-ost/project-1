@@ -1,7 +1,7 @@
-import {TodoItemListView} from './todo-item-list-view.js';
-import {TodoService} from '../service/todo-service.js';
+import TodoItemListView from './todo-item-list-view.js';
+import TodoService from '../service/todo-service.js';
 
-export class TodoListController {
+export default class TodoListController {
 
     constructor(mainCtrl) {
         this._ASCENDING_ORDER = '+1';
@@ -31,16 +31,16 @@ export class TodoListController {
 
     _onSortChange() {
         this._setSortDir(); // direction text depends on sort criteria
-        this._render().finally();
+        this.render().finally();
     }
 
     _onSortDirClick() {
         this._setSortDir();
-        this._render().finally();
+        this.render().finally();
     }
 
     _onFilterChange() {
-        this._render().finally();
+        this.render().finally();
     }
 
     _onAddNewClick() {
@@ -51,22 +51,22 @@ export class TodoListController {
         try {
             if (event.target.dataset.click === 'edit') {
                 this._mainCtrl.displayEditView(event.target.dataset.id);
-            }
-            else if (event.target.dataset.click === 'delete') {
-                await TodoService.deleteNoteById(event.target.dataset.id);
-                this._render().finally();
+            } else if (event.target.dataset.click === 'delete') {
+                const rev = await TodoService.deleteNoteById(event.target.dataset.id);
+                this._mainCtrl.setRevision(rev);
+                this.render().finally();
             }
         } catch (err) {
-            this._mainCtrl.screech("Communication Failure", err);
+            this._mainCtrl.screech("Could not delete note.", err);
         }
     }
 
     async _onDoneChange(event) {
         try {
             await TodoService.updateNote({_id: event.target.dataset.id, done: true});
-            this._render().finally();
+            this.render().finally();
         } catch (err) {
-            this._mainCtrl.screech("Communication Failure", err);
+            this._mainCtrl.screech("Could not update note.", err);
         }
     }
 
@@ -82,45 +82,33 @@ export class TodoListController {
         }
     }
 
-    async _render() {
-        try {
-            const notes = await TodoService.getNotes(this._sortSel.value, this._curSortDir, this._filterSel.value);
-            this._itemListCtrl.render(notes);
-        } catch(err) {
-            this._mainCtrl.screech("Communication Failure", err);
-        }
-    }
-
     init() {
         this._sortSel.addEventListener(
-            'change', (event) => {
-                this._onSortChange(event);
-            });
+            'change', (event) => { this._onSortChange(event); });
         this._sortDirBtn.addEventListener(
-            'click', (event) => {
-                this._onSortDirClick(event);
-            });
+            'click', (event) => { this._onSortDirClick(event); });
         this._filterSel.addEventListener(
-            'change', (event) => {
-                this._onFilterChange(event);
-            });
+            'change', (event) => { this._onFilterChange(event); });
         this._addNewBtn.addEventListener(
-            'click', (event) => {
-                this._onAddNewClick(event);
-            });
-
+            'click', (event) => { this._onAddNewClick(event); });
         this._itemListContainer.addEventListener(
-            'click', (event) => {
-                this._onItemClick(event).finally();
-            });
+            'click', (event) => { this._onItemClick(event).finally(); });
         this._itemListContainer.addEventListener(
-            'change', (event) => {
-                this._onDoneChange(event).finally();
-            });
-
+            'change', (event) => { this._onDoneChange(event).finally(); });
         this._itemListCtrl.init();
         this._setSortDir();
         this.display()
+    }
+
+    async render() {
+        try {
+            const notes = await TodoService.getNotes(this._sortSel.value, this._curSortDir, this._filterSel.value);
+            this._itemListCtrl.render(notes);
+            let cnt = 0; notes.forEach(n => {if (!n.done) ++cnt; });
+            this._mainCtrl.updateOpenIssueCounter(cnt);
+        } catch(err) {
+            this._mainCtrl.screech("Could not get notes.", err);
+        }
     }
 
     hide() {
@@ -128,7 +116,7 @@ export class TodoListController {
     }
 
     display() {
-        this._render().finally();
+        this.render().finally();
         this._listContainer.style.display = 'block';
     }
 }
