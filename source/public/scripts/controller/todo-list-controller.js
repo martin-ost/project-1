@@ -57,7 +57,7 @@ export default class TodoListController {
                 this.render();
             }
         } catch (err) {
-            this._mainCtrl.screech("Could not delete note.", err);
+            this._mainCtrl.screech("Could not delete note", err);
         }
     }
 
@@ -66,7 +66,7 @@ export default class TodoListController {
             await TodoService.updateNote({_id: event.target.dataset.id, done: true});
             this.render();
         } catch (err) {
-            this._mainCtrl.screech("Could not update note.", err);
+            this._mainCtrl.screech("Could not update note", err);
         }
     }
 
@@ -107,7 +107,7 @@ export default class TodoListController {
             let cnt = 0; notes.forEach(n => {if (!n.done) ++cnt; });
             this._mainCtrl.updateOpenIssueCounter(cnt);
         } catch(err) {
-            this._mainCtrl.screech("Could not get notes.", err);
+            this._mainCtrl.screech("Could not get notes", err);
         }
     }
 

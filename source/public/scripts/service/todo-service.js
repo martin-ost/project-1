@@ -1,18 +1,13 @@
 export default class TodoService {
 
-    static _log(msg) {
-        // eslint-disable-next-line no-constant-condition
-        if (true) console.log(msg);
-    }
-
     static async _request(method, url, data, headers) {
-        TodoService._log(`${method}, ${url}, ${data}, ${headers}`);
         const fetchHeaders = new Headers({'content-type': 'application/json', ...(headers || {})});
         return fetch(url, {method, headers: fetchHeaders, body: JSON.stringify(data)})
-            .then(rsp => {
-                TodoService._log(rsp);
-                if (rsp.status >= 400)
-                    throw new Error(`Status:${rsp.status}:${rsp.statusText}`);
+            .then(async rsp => {
+                if (rsp.status >= 400) {
+                    // const msg = await rsp.json().then(body => body);
+                    throw new Error(`Response(${rsp.status}:${rsp.statusText}:${await rsp.json().then(body => body)})`)
+                }
                 return rsp.json();
             })
             .catch(err => { throw err; }); // local issue

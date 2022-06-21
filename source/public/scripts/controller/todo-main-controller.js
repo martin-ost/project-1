@@ -100,7 +100,7 @@ export default class TodoMainController {
         this._headerContainer.style.display = 'none';
         this._footerContainer.style.display = 'none';
         this._errorContainer.style.display = 'grid';
-        console.error(`${msg}: ${err}`);
+        console.error(`${msg}:${err}`);
         throw new Error("Something went badly wrong!"); // stop further execution
     }
 }

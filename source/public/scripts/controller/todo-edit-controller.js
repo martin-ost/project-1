@@ -31,7 +31,7 @@ export default class TodoEditController {
             else
                 this._default();
         } catch (err) {
-            this._mainCtrl.screech("Could not reset note.", err);
+            this._mainCtrl.screech("Could not reset note", err);
         }
     }
 
@@ -46,7 +46,7 @@ export default class TodoEditController {
             await this._save();
             this._finish();
         } catch (err) {
-            this._mainCtrl.screech("Could not save note.", err);
+            this._mainCtrl.screech("Could not save note", err);
         }
     }
 
@@ -150,13 +150,17 @@ export default class TodoEditController {
         this._itemEditContainer.style.display = 'none';
     }
 
-    display(id = undefined) { // undefined
-        this._curId = id;
-        if (id)
-            this._reset(); // existing note
-        else
-            this._default(); // new note
-        this._itemEditContainer.style.display = 'block';
-        this._nameInput.focus();
+    async display(id = undefined) {
+        try {
+            this._curId = id;
+            if (id)
+                await this._reset(); // existing note
+            else
+                this._default(); // new note
+            this._itemEditContainer.style.display = 'block';
+            this._nameInput.focus();
+        } catch (err) {
+            this._mainCtrl.screech("Could not display note", err);
+        }
     }
 }
