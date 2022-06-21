@@ -50,7 +50,7 @@ export default class TodoMainController {
                 await this._listCtrl.render();
             }
         } catch(err) {
-            this.screech("Communication Failure", err);
+            this.screech("Could not get revision.", err);
         }
     }
 
@@ -60,7 +60,7 @@ export default class TodoMainController {
         this._infoBtn.addEventListener(
             'click', (event) => { this._onInfoClick(event); });
         this._revisionCheck = setInterval(
-            () => { this._checkRevision().finally() }, this._REVISION_CHECK_INTERVAL_MS);
+            () => { this._checkRevision() }, this._REVISION_CHECK_INTERVAL_MS);
         this._editCtrl.init();
         this._listCtrl.init();
         this._curCtrl = this._listCtrl;
@@ -69,10 +69,10 @@ export default class TodoMainController {
     }
 
     updateOpenIssueCounter(cnt) {
-        this._issueCntrText.textContent = `${cnt}`;
+        this._issueCntrText.textContent = `Offene Pendenzen: ${cnt}`;
     }
 
-    setRevision(rev) { // Todo: use setter
+    setRevision(rev) {
         this._curRev = rev;
     }
 

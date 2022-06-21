@@ -153,7 +153,7 @@ export default class TodoEditController {
     display(id = undefined) { // undefined
         this._curId = id;
         if (id)
-            this._reset().finally(); // existing note
+            this._reset(); // existing note
         else
             this._default(); // new note
         this._itemEditContainer.style.display = 'block';

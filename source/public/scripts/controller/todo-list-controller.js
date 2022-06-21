@@ -31,16 +31,16 @@ export default class TodoListController {
 
     _onSortChange() {
         this._setSortDir(); // direction text depends on sort criteria
-        this.render().finally();
+        this.render();
     }
 
     _onSortDirClick() {
         this._setSortDir();
-        this.render().finally();
+        this.render();
     }
 
     _onFilterChange() {
-        this.render().finally();
+        this.render();
     }
 
     _onAddNewClick() {
@@ -54,7 +54,7 @@ export default class TodoListController {
             } else if (event.target.dataset.click === 'delete') {
                 const rev = await TodoService.deleteNoteById(event.target.dataset.id);
                 this._mainCtrl.setRevision(rev);
-                this.render().finally();
+                this.render();
             }
         } catch (err) {
             this._mainCtrl.screech("Could not delete note.", err);
@@ -64,7 +64,7 @@ export default class TodoListController {
     async _onDoneChange(event) {
         try {
             await TodoService.updateNote({_id: event.target.dataset.id, done: true});
-            this.render().finally();
+            this.render();
         } catch (err) {
             this._mainCtrl.screech("Could not update note.", err);
         }
@@ -92,9 +92,9 @@ export default class TodoListController {
         this._addNewBtn.addEventListener(
             'click', (event) => { this._onAddNewClick(event); });
         this._itemListContainer.addEventListener(
-            'click', (event) => { this._onItemClick(event).finally(); });
+            'click', (event) => { this._onItemClick(event); });
         this._itemListContainer.addEventListener(
-            'change', (event) => { this._onDoneChange(event).finally(); });
+            'change', (event) => { this._onDoneChange(event); });
         this._itemListCtrl.init();
         this._setSortDir();
         this.display()
@@ -116,7 +116,7 @@ export default class TodoListController {
     }
 
     display() {
-        this.render().finally();
+        this.render();
         this._listContainer.style.display = 'block';
     }
 }

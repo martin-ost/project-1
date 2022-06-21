@@ -458,7 +458,7 @@ textarea:focus-visible {
 
 .todo-footer {
     display: grid;
-    grid-template-columns: auto 2rem;
+    grid-template-columns: auto 10rem;
     position: fixed;
     bottom: 0;
     left: 0;
