@@ -74,6 +74,47 @@ button {
     cursor: pointer;
 }
 
+dialog:not([open]) {
+    display: none;
+}
+
+dialog[open] {
+    position: fixed;
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%, -50%);
+    width: 20rem;
+    margin: 1rem;
+    border: 1px solid var(--theme-font-color);
+    display: grid;
+    background: var(--theme-background-text-box-color);
+    justify-content: start;
+    align-content: center;
+    box-shadow: var(--theme-shadow);
+}
+
+dialog button {
+    justify-self: end;
+    align-self: end;
+    margin-top: 0.7rem;
+}
+
+dialog::backdrop {
+    background: rgba(50% 50% 50% / 50%);
+}
+
+dialog h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    height: 2rem;
+}
+
+dialog p {
+    margin-top: 0.7rem;
+    margin-bottom: 0.7rem;
+    font-size: 1rem;
+}
+
 button:focus-visible {
     outline: var(--theme-outline);
 }
@@ -109,6 +150,21 @@ input:focus-visible {
 
 textarea:focus-visible {
     outline: var(--theme-outline);
+}
+
+.todo-button {
+    margin-left: 1rem;
+    height: 1.7rem;
+    width: 7rem;
+    color: var(--theme-background-color);
+    background-color: var(--theme-header-background-color);
+    border: none;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+}
+
+.todo-button:hover {
+    background-color: var(--theme-button-hover);
 }
 
 /*
@@ -435,21 +491,6 @@ textarea:focus-visible {
     justify-content: flex-end;
     align-items: flex-end;
     height: 3rem;
-}
-
-.todo-edit-view .todo-edit-item-actions button {
-    margin-left: 1rem;
-    height: 1.7rem;
-    width: 7rem;
-    color: var(--theme-background-color);
-    background-color: var(--theme-header-background-color);
-    border: none;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-}
-
-.todo-edit-view .todo-edit-item-actions button:hover {
-    background-color: var(--theme-button-hover);
 }
 
 /*

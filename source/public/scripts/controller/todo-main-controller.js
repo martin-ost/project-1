@@ -10,7 +10,9 @@ export default class TodoMainController {
         this._curCtrl = undefined;
 
         this._themeBtn = document.querySelector ('[data-id="todo-btn-theme"]');
-        this._infoBtn = document.querySelector ('[data-id="todo-btn-info"]');
+        this._infoOpenBtn = document.querySelector ('[data-id="todo-btn-open-info"]');
+        this._infoDlg = document.querySelector ('[data-id="todo-info-container"]');
+        this._infoCloseBtn = document.querySelector ('[data-id="todo-btn-close-info"]');
         this._headerContainer = document.querySelector ('[data-id="todo-header-container"]');
         this._errorContainer = document.querySelector ('[data-id="todo-system-failure-container"]');
         this._footerContainer = document.querySelector ('[data-id="todo-footer-container"]');
@@ -31,10 +33,12 @@ export default class TodoMainController {
             this._setTheme('light');
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    _onInfoClick() {
-        // Todo: implement info view
-        window.console.log("info view not implemented yet");
+    _onInfoOpenClick() {
+        this._infoDlg.showModal();
+    }
+
+    _onInfoCloseClick() {
+        this._infoDlg.close();
     }
 
     _setTheme(theme) {
@@ -57,8 +61,10 @@ export default class TodoMainController {
     init() {
         this._themeBtn.addEventListener(
             'click', (event) => { this._onThemeClick(event); });
-        this._infoBtn.addEventListener(
-            'click', (event) => { this._onInfoClick(event); });
+        this._infoOpenBtn.addEventListener(
+            'click', (event) => { this._onInfoOpenClick(event); });
+        this._infoCloseBtn.addEventListener(
+            'click', (event) => { this._onInfoCloseClick(event); });
         this._revisionCheck = setInterval(
             () => { this._checkRevision() }, this._REVISION_CHECK_INTERVAL_MS);
         this._editCtrl.init();

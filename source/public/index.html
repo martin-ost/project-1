@@ -68,6 +68,13 @@
 
 <body>
 
+<dialog data-id="todo-info-container">
+    <h1>Todo Web-Applikation</h1>
+    <p>Diese Web-Applikation ist als Projektarbeit im Rahmen des CAS Frontend Engineering 2022 entstanden.</p>
+    <p>Author: Martin Frey / martin.frey@ost.ch</p>
+    <button type="button" class="todo-button" data-id="todo-btn-close-info">Schliessen</button>
+</dialog>
+
 <header>
     <section class="todo-header-view" data-id="todo-header-container">
         <div>Pendenzenliste</div>
@@ -79,7 +86,7 @@
                 <use href="/styles/icons.svg#dark"></use>
             </svg>
         </button>
-        <button data-click="info" data-id="todo-btn-info">
+        <button data-click="info" data-id="todo-btn-open-info">
             <svg viewBox="0 0 48 48" width="24" height="24">
                 <use href="/styles/icons.svg#info"></use>
             </svg>
@@ -151,9 +158,9 @@
             </div>
         </div>
         <div class="todo-edit-item-actions">
-            <button type="button" data-id="todo-edit-reset">Zurücksetzen</button>
-            <button type="button" data-id="todo-edit-abort">Abbrechen</button>
-            <button type="button" data-id="todo-edit-save">Speichern</button>
+            <button type="button" class="todo-button" data-id="todo-edit-reset">Zurücksetzen</button>
+            <button type="button" class="todo-button" data-id="todo-edit-abort">Abbrechen</button>
+            <button type="button" class="todo-button" data-id="todo-edit-save">Speichern</button>
         </div>
     </form>
 </main>
