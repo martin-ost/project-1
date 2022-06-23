@@ -1,76 +1,81 @@
 [data-theme="light"] {
-    --theme-background-color: white;
-    --theme-header-background-color: #006dfe;
-    --theme-font-color: black;
-    --theme-font-header-color: white;
+    --theme-font: black;
+    --theme-font-header: white;
     --theme-font-disabled: gray;
-    --theme-frame-text-box-color: lightgray;
-    --theme-background-text-box-color: white;
-    --theme-icon-delete: red;
-    --theme-icon-theme-display-light: inline;
-    --theme-icon-theme-display-dark: none;
-    --theme-footer-background-color: lightgray;
-    --theme-footer-font-color: black;
-    --theme-font-error: red;
-    --theme-input-error: mistyrose;
-    --theme-item-prio-1: #f3f3f3;
-    --theme-item-prio-1-hover: lightskyblue;
-    --theme-item-prio-2: lightyellow;
-    --theme-item-prio-2-hover: lightskyblue;
-    --theme-item-prio-3: #f7ffcb;
-    --theme-item-prio-3-hover: lightskyblue;
-    --theme-item-prio-4: #fdf1c1;
-    --theme-item-prio-4-hover: lightskyblue;
-    --theme-item-prio-5: #f0deff;
-    --theme-item-prio-5-hover: lightskyblue;
+    --theme-font-item: black;
+    --theme-font-footer: black;
+    --theme-background: white;
+    --theme-background-header: #006dfe;
+    --theme-background-footer: lightgray;
+    --theme-background-input: white;
+    --theme-background-input-error: mistyrose;
+    --theme-background-prio-1: #fffab6;
+    --theme-background-prio-2: #fcecc0;
+    --theme-background-prio-3: #fadecb;
+    --theme-background-prio-4: #f7d0d5;
+    --theme-background-prio-5: #f4c2df;
+    --theme-background-prio-x-hover: lightskyblue;
+    --theme-button-hover: black;
+    --theme-button-delete: red;
+    --theme-button-header: white;
+    --theme-button-header-hover: black;
+    --theme-button-theme-light: inline;
+    --theme-button-theme-dark: none;
+    --theme-input-frame: lightgray;
+    --theme-error: red;
     --theme-shadow: 0 5px 5px 0 rgba(127 127 127 / 100%);
     --theme-shadow-footer: 0 -4px 5px 0 rgba(127 127 127 / 100%);
     --theme-outline: black solid 2px;
-    --theme-button-hover: black;
 }
 
 [data-theme="dark"] {
-    --theme-background-color: #343434;
-    --theme-header-background-color: #291096;
-    --theme-font-color: lightgray;
-    --theme-font-header-color: lightgray;
+    --theme-font: lightgray;
+    --theme-font-header: lightgray;
     --theme-font-disabled: gray;
-    --theme-frame-text-box-color: lightgray;
-    --theme-background-text-box-color: white;
-    --theme-icon-delete: red;
-    --theme-icon-theme-display-light: none;
-    --theme-icon-theme-display-dark: lightgray;
-    --theme-footer-background-color: black;
-    --theme-footer-font-color: lightgray;
-    --theme-font-error: red;
-    --theme-input-error: mistyrose;
-    --theme-item-prio-1: #f3f3f3;
-    --theme-item-prio-1-hover: lightskyblue;
-    --theme-item-prio-2: lightyellow;
-    --theme-item-prio-2-hover: lightskyblue;
-    --theme-item-prio-3: #f7ffcb;
-    --theme-item-prio-3-hover: lightskyblue;
-    --theme-item-prio-4: #fdf1c1;
-    --theme-item-prio-4-hover: lightskyblue;
-    --theme-item-prio-5: #f0deff;
-    --theme-item-prio-5-hover: lightskyblue;
+    --theme-font-footer: lightgray;
+    --theme-font-item: black;
+    --theme-background: #383838;
+    --theme-background-header: #904a8e;
+    --theme-background-footer: black;
+    --theme-background-input: #535353;
+    --theme-background-input-error: mistyrose;
+    --theme-background-prio-1: #fef2dc;
+    --theme-background-prio-2: #fedcc8;
+    --theme-background-prio-3: #edc6bb;
+    --theme-background-prio-4: #ddaeae;
+    --theme-background-prio-5: #c39aa5;
+    --theme-background-prio-x-hover: lightskyblue;
+    --theme-button-hover: black;
+    --theme-button-delete: red;
+    --theme-button-header: white;
+    --theme-button-header-hover: black;
+    --theme-button-theme-light: none;
+    --theme-button-theme-dark: inline;
+    --theme-input-frame: lightgray;
+    --theme-error: #fa653c;
     --theme-shadow: none;
     --theme-shadow-footer: none;
-    --theme-outline: black solid 2px;
-    --theme-button-hover: black;
+    --theme-outline: gray solid 2px;
+}
+
+:root {
+    --size-giant: 3rem;
+    --size-big: 2rem;
+    --size-normal: 1rem;
+    --size-small: 0.7rem;
 }
 
 html {
     font-family: "Roboto Flex", sans-serif;
     font-size: 20px;
-    color: var(--theme-font-color);
-    background: var(--theme-background-color);
+    color: var(--theme-font);
+    background: var(--theme-background);
 }
 
 button {
     padding: 0;
     border: none;
-    background-color: inherit;
+    background-color: var(--theme-background);
     cursor: pointer;
 }
 
@@ -85,9 +90,10 @@ dialog[open] {
     transform: translate(-50%, -50%);
     width: 20rem;
     margin: 1rem;
-    border: 1px solid var(--theme-font-color);
+    border: 1px solid var(--theme-font);
     display: grid;
-    background: var(--theme-background-text-box-color);
+    color: var(--theme-font);
+    background: var(--theme-background);
     justify-content: start;
     align-content: center;
     box-shadow: var(--theme-shadow);
@@ -129,9 +135,9 @@ select {
     font-family: inherit;
     font-size: inherit;
     font-style: italic;
-    color: var(--theme-header-background-color);
-    background: var(--theme-background-color);
-    border-color: var(--theme-background-color);
+    color: var(--theme-background-header);
+    background: var(--theme-background);
+    border-color: var(--theme-background);
     cursor: pointer;
 }
 
@@ -141,7 +147,7 @@ select:focus-visible {
 
 select:hover {
     font-weight: bold;
-    color: var(--theme-font-color);
+    color: var(--theme-font);
 }
 
 input:focus-visible {
@@ -156,8 +162,8 @@ textarea:focus-visible {
     margin-left: 1rem;
     height: 1.7rem;
     width: 7rem;
-    color: var(--theme-background-color);
-    background-color: var(--theme-header-background-color);
+    color: var(--theme-font-header);
+    background-color: var(--theme-background-header);
     border: none;
     border-radius: 1rem;
     font-size: 0.8rem;
@@ -166,10 +172,6 @@ textarea:focus-visible {
 .todo-button:hover {
     background-color: var(--theme-button-hover);
 }
-
-/*
- *  Header
- */
 
 .todo-header-view {
     position: fixed;
@@ -186,31 +188,28 @@ textarea:focus-visible {
     align-items: end;
     font-size: 2rem;
     font-weight: bold;
-    color: var(--theme-font-header-color);
-    background-color: var(--theme-header-background-color);
+    color: var(--theme-font-header);
+    background-color: var(--theme-background-header);
     box-shadow: var(--theme-shadow);
 }
 
 .todo-header-view button {
     justify-self: end;
-    color: var(--theme-font-header-color);
+    background-color: inherit;
+    color: var(--theme-font-header);
 }
 
 .todo-header-view button:hover {
-    color: var(--theme-font-color);
+    color: var(--theme-font);
 }
 
 .todo-icon-theme-light {
-    display: var(--theme-icon-theme-display-light);
+    display: var(--theme-button-theme-light);
 }
 
 .todo-icon-theme-dark {
-    display: var(--theme-icon-theme-display-dark);
+    display: var(--theme-button-theme-dark);
 }
-
-/*
- *  List View
- */
 
 .todo-list-view {
     position: relative;
@@ -230,34 +229,37 @@ textarea:focus-visible {
     grid-template-columns: minmax(0, 10rem) minmax(0, 10rem) minmax(0, 10rem) auto;
     height: 3rem;
     align-items: center;
-    background: var(--theme-background-color);
+    background: var(--theme-background);
+}
+
+.todo-action-bar-container button {
+    padding: 0;
+    border: none;
+    background-color: var(--theme-background);
+    cursor: pointer;
 }
 
 .todo-btn-sort-dir {
     font-family: inherit;
     font-size: inherit;
     font-style: italic;
-    color: var(--theme-header-background-color);
+    color: var(--theme-background-header);
 }
 
 .todo-btn-sort-dir:hover {
     font-weight: bold;
-    color: var(--theme-font-color);
+    color: var(--theme-font);
 }
 
 .todo-btn-add-new {
     justify-self: end;
-    color: var(--theme-header-background-color);
+    color: var(--theme-background-header);
 }
 
 .todo-btn-add-new:hover {
     justify-self: end;
-    color: var(--theme-font-color);
+    color: var(--theme-font);
 }
-
-/*
- *  Item List
- */
 
 .todo-item-list-entry-container {
     padding: 20px;
@@ -266,6 +268,7 @@ textarea:focus-visible {
     grid-template-columns: 5rem auto 2rem 2rem;
     grid-template-rows: 1rem 1rem 1rem;
     height: 3rem;
+    color: var(--theme-font-item);
     box-shadow: var(--theme-shadow);
 }
 
@@ -274,43 +277,27 @@ textarea:focus-visible {
 }
 
 .todo-item-list-entry-container[data-prio="5"] {
-    background-color: var(--theme-item-prio-5);
-}
-
-.todo-item-list-entry-container[data-prio="5"]:hover {
-    background-color: var(--theme-item-prio-5-hover);
+    background-color: var(--theme-background-prio-5);
 }
 
 .todo-item-list-entry-container[data-prio="4"] {
-    background-color: var(--theme-item-prio-4);
-}
-
-.todo-item-list-entry-container[data-prio="4"]:hover {
-    background-color: var(--theme-item-prio-4-hover);
+    background-color: var(--theme-background-prio-4);
 }
 
 .todo-item-list-entry-container[data-prio="3"] {
-    background-color: var(--theme-item-prio-3);
-}
-
-.todo-item-list-entry-container[data-prio="3"]:hover {
-    background-color: var(--theme-item-prio-3-hover);
+    background-color: var(--theme-background-prio-3);
 }
 
 .todo-item-list-entry-container[data-prio="2"] {
-    background-color: var(--theme-item-prio-2);
-}
-
-.todo-item-list-entry-container[data-prio="2"]:hover {
-    background-color: var(--theme-item-prio-2-hover);
+    background-color: var(--theme-background-prio-2);
 }
 
 .todo-item-list-entry-container[data-prio="1"] {
-    background-color: var(--theme-item-prio-1);
+    background-color: var(--theme-background-prio-1);
 }
 
-.todo-item-list-entry-container[data-prio="1"]:hover {
-    background-color: var(--theme-item-prio-1-hover);
+.todo-item-list-entry-container:hover {
+    background-color: var(--theme-background-prio-x-hover);
 }
 
 .todo-item-list-entry-due-date {
@@ -356,6 +343,7 @@ textarea:focus-visible {
     grid-row: 3;
     grid-column: 2;
     align-self: end;
+    font-size: 0.7rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -365,12 +353,13 @@ textarea:focus-visible {
     display: none;
     align-self: end;
     justify-self: end;
+    background-color: inherit;
 }
 
 .todo-item-list-entry-btn[data-click="delete"] {
     grid-row: 3;
     grid-column: 3;
-    color: var(--theme-icon-delete);
+    color: var(--theme-button-delete);
 }
 
 .todo-item-list-entry-btn[data-click="edit"] {
@@ -385,7 +374,7 @@ textarea:focus-visible {
 .todo-item-list-no-entry {
     display: grid;
     justify-content: center;
-    color: var(--theme-footer-background-color);
+    color: var(--theme-background-footer);
 }
 
 .todo-item-list-no-entry div {
@@ -393,10 +382,6 @@ textarea:focus-visible {
     font-size: 3rem;
     font-style: italic;
 }
-
-/*
- *  Edit View
- */
 
 .todo-edit-view {
     position: fixed;
@@ -425,21 +410,21 @@ textarea:focus-visible {
     font-family: inherit;
     font-weight: bold;
     font-size: inherit;
-    color: var(--theme-font-color);
-    background-color: var(--theme-background-text-box-color);
-    border: 1px solid var(--theme-frame-text-box-color);
+    color: var(--theme-font);
+    background-color: var(--theme-background-input);
+    border: 1px solid var(--theme-input-frame);
     box-sizing: border-box;
     width: 100%;
 }
 
 .todo-edit-item-name label.todo-error {
-    color: var(--theme-font-error);
+    color: var(--theme-error);
     font-style: italic;
     font-weight: bold;
 }
 
 .todo-edit-item-name input.dirty:invalid {
-    background-color: var(--theme-input-error);
+    background-color: var(--theme-background-input-error);
 }
 
 .todo-edit-item-done {
@@ -457,9 +442,9 @@ textarea:focus-visible {
     display: block;
     font-family: inherit;
     font-size: inherit;
-    color: var(--theme-font-color);
-    background-color: var(--theme-background-text-box-color);
-    border: 1px solid var(--theme-frame-text-box-color);
+    color: var(--theme-font);
+    background-color: var(--theme-background-input);
+    border: 1px solid var(--theme-input-frame);
 }
 
 .todo-edit-item-priority {
@@ -481,9 +466,9 @@ textarea:focus-visible {
     width: 100%;
     font-family: inherit;
     font-size: inherit;
-    color: var(--theme-font-color);
-    background-color: var(--theme-background-text-box-color);
-    border: 1px solid var(--theme-frame-text-box-color);
+    color: var(--theme-font);
+    background-color: var(--theme-background-input);
+    border: 1px solid var(--theme-input-frame);
 }
 
 .todo-edit-item-actions {
@@ -492,10 +477,6 @@ textarea:focus-visible {
     align-items: flex-end;
     height: 3rem;
 }
-
-/*
- * Footer
- */
 
 .todo-footer {
     display: grid;
@@ -508,8 +489,8 @@ textarea:focus-visible {
     padding: 10px 30px;
     font-size: 0.7rem;
     font-style: italic;
-    color: var(--theme-footer-font-color);
-    background: var(--theme-footer-background-color);
+    color: var(--theme-font-footer);
+    background: var(--theme-background-footer);
     box-shadow: var(--theme-shadow-footer);
 }
 
@@ -517,10 +498,6 @@ textarea:focus-visible {
     justify-self: right;
     font-weight: bold;
 }
-
-/*
- * System Failure
- */
 
 .todo-system-failure {
     display: none;
