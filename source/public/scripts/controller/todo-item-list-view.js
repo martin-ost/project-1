@@ -5,7 +5,7 @@
 
 /**
  * The ItemListView class is used by the controller to render the given notes.
- * It is based on Handlebars template engine (that is minimal but runs on steroids).
+ * It is based on the Handlebars template engine (minimal but runs on steroids).
  *
  * - https://handlebarsjs.com/
  */
@@ -32,16 +32,16 @@ export default class TodoItemListView {
      */
     static _getDueDateView(date) {
         const milliSecsPerDay = 1000*60*60*24;
-        const days = Math.floor((new Date().getTime() - date) / milliSecsPerDay);
+        const days = Math.ceil((date - new Date().getTime()) / milliSecsPerDay);
         switch (true) {
-            case (days === -1):
-                return "Morgen";
             case (days === 1):
+                return "Morgen";
+            case (days === -1):
                 return "Gestern";
-            case (days < 0):
-                return `in ${Math.abs(days)} Tagen`;
             case (days > 0):
-                return `vor ${days} Tagen`;
+                return `in ${days} Tagen`;
+            case (days < 0):
+                return `vor ${Math.abs(days)} Tagen`;
             default:
                 return "Heute";
         }

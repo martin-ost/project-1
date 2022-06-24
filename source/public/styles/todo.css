@@ -3,11 +3,6 @@
  * Martin Frey <martin.frey@ost.ch>
  */
 
-/* Todo:
- * - use grid areas:
- *   https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Box_Alignment_in_CSS_Grid_Layout
- */
-
 [data-theme="light"] {
     --theme-font: black;
     --theme-font-header: white;
@@ -24,8 +19,8 @@
     --theme-background-prio-3: #fadecb;
     --theme-background-prio-4: #f7d0d5;
     --theme-background-prio-5: #f4c2df;
-    --theme-background-prio-x-done: lightgray;
-    --theme-background-prio-x-hover: lightskyblue;
+    --theme-background-prio-x-done: #eee;
+    --theme-background-prio-x-hover: #d4f0fc;
     --theme-button-hover: black;
     --theme-button-delete: red;
     --theme-button-header: white;
@@ -98,6 +93,11 @@ textarea:focus-visible {
 
 select:focus-visible {
     outline: var(--theme-outline);
+}
+
+svg {
+    /* process events from underlaying button element */
+    pointer-events: none;
 }
 
 /* "classic" button */
@@ -231,6 +231,7 @@ select:focus-visible {
 
 .todo-action-bar-container select {
     appearance: none;
+    border-style: none; /* Firefox */
     font-family: inherit;
     font-size: inherit;
     font-style: italic;
@@ -274,14 +275,21 @@ select:focus-visible {
  * ------------------------------------------------------------------
  */
 .todo-item-list-entry-container {
-    padding: 20px;
+    padding: 15px;
     margin: 20px;
     display: grid;
-    grid-template-columns: 5rem auto 3rem 2rem;
+    grid-template:
+        "due name done tick"
+        "prio prio prio prio"
+        "creation description del edit"
+        / 5rem auto 3rem 2rem;
     grid-template-rows: 1rem 1rem 1rem;
-    height: 3rem;
     color: var(--theme-font-item);
     box-shadow: var(--theme-shadow);
+}
+
+.todo-item-list-entry-container * {
+    padding: 2px;
 }
 
 .todo-item-list-entry-container svg {
@@ -317,32 +325,28 @@ select:focus-visible {
 }
 
 .todo-item-list-entry-due-date {
-    grid-row: 1;
-    grid-column: 1;
+    grid-area: due;
     align-self: start;
     font-size: 0.7rem;
     font-weight: bold;
 }
 
 .todo-item-list-entry-name {
-    grid-row: 1;
-    grid-column: 2;
+    grid-area: name;
     align-self: start;
     font-weight: bold;
 }
 
 .todo-item-list-entry-done-text {
-    grid-row: 1;
-    grid-column: 3;
+    grid-area: done;
     align-self: center;
     justify-self: end;
     font-size: 0.7rem;
 }
 
 .todo-item-list-entry-done-tick {
-    grid-row: 1;
-    grid-column: 4;
-    align-self: start;
+    grid-area: tick;
+    align-self: center;
     justify-self: end;
     font-size: 0.7rem;
     background-color: inherit;
@@ -353,15 +357,13 @@ select:focus-visible {
 }
 
 .todo-item-list-entry-priority {
-    grid-row: 2;
-    grid-column: 1 / span 4;
+    grid-area: prio;
     align-self: center;
     font-size: 0.7rem;
 }
 
 .todo-item-list-entry-created {
-    grid-row: 3;
-    grid-column: 1;
+    grid-area: creation;
     align-self: end;
     font-size: 0.7rem;
     font-style: italic;
@@ -369,8 +371,7 @@ select:focus-visible {
 }
 
 .todo-item-list-entry-description {
-    grid-row: 3;
-    grid-column: 2;
+    grid-area: description;
     align-self: end;
     font-size: 0.7rem;
     white-space: nowrap;
@@ -386,14 +387,12 @@ select:focus-visible {
 }
 
 .todo-item-list-entry-btn[data-click="delete"] {
-    grid-row: 3;
-    grid-column: 3;
+    grid-area: del;
     color: var(--theme-button-delete);
 }
 
 .todo-item-list-entry-btn[data-click="edit"] {
-    grid-row: 3;
-    grid-column: 4;
+    grid-area: edit;
 }
 
 /* show edit and display when hover */
@@ -429,14 +428,17 @@ select:focus-visible {
 
 .todo-edit-item-container {
     display: grid;
-    grid-template-columns: 8rem auto 8rem;
+    grid-template:
+        "name name done"
+        "due prio prio"
+        "descr descr descr"
+        / 8rem auto 8rem;
     grid-template-rows: 4rem 3rem 10rem;
     align-items: end;
 }
 
 .todo-edit-item-name {
-    grid-row: 1;
-    grid-column: 1 / span 2;
+    grid-area: name;
 }
 
 .todo-edit-item-name input {
@@ -462,14 +464,12 @@ select:focus-visible {
 }
 
 .todo-edit-item-done {
-    grid-row: 1;
-    grid-column: 3;
+    grid-area: done;
     justify-self: end;
 }
 
 .todo-edit-item-due-date {
-    grid-row: 2;
-    grid-column: 1;
+    grid-area: due;
 }
 
 .todo-edit-item-due-date input {
@@ -482,14 +482,12 @@ select:focus-visible {
 }
 
 .todo-edit-item-priority {
-    grid-row: 2;
-    grid-column: 2 / span 2;
+    grid-area: prio;
     justify-self: end;
 }
 
 .todo-edit-item-description {
-    grid-row: 3;
-    grid-column: 1 / span 3;
+    grid-area: descr;
 }
 
 .todo-edit-item-description textarea {
