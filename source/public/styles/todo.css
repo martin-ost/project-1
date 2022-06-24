@@ -1,3 +1,13 @@
+/*
+ * CAS FEE 2022 / Project 1 / Frontend: Main Controller
+ * Martin Frey <martin.frey@ost.ch>
+ */
+
+/* Todo:
+ * - use grid areas:
+ *   https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Box_Alignment_in_CSS_Grid_Layout
+ */
+
 [data-theme="light"] {
     --theme-font: black;
     --theme-font-header: white;
@@ -14,6 +24,7 @@
     --theme-background-prio-3: #fadecb;
     --theme-background-prio-4: #f7d0d5;
     --theme-background-prio-5: #f4c2df;
+    --theme-background-prio-x-done: lightgray;
     --theme-background-prio-x-hover: lightskyblue;
     --theme-button-hover: black;
     --theme-button-delete: red;
@@ -34,7 +45,7 @@
     --theme-font-disabled: gray;
     --theme-font-footer: lightgray;
     --theme-font-item: black;
-    --theme-background: #383838;
+    --theme-background: #202020;
     --theme-background-header: #904a8e;
     --theme-background-footer: black;
     --theme-background-input: #535353;
@@ -44,6 +55,7 @@
     --theme-background-prio-3: #edc6bb;
     --theme-background-prio-4: #ddaeae;
     --theme-background-prio-5: #c39aa5;
+    --theme-background-prio-x-done: lightgray;
     --theme-background-prio-x-hover: lightskyblue;
     --theme-button-hover: black;
     --theme-button-delete: red;
@@ -51,18 +63,11 @@
     --theme-button-header-hover: black;
     --theme-button-theme-light: none;
     --theme-button-theme-dark: inline;
-    --theme-input-frame: lightgray;
+    --theme-input-frame: black;
     --theme-error: #fa653c;
     --theme-shadow: none;
     --theme-shadow-footer: none;
-    --theme-outline: gray solid 2px;
-}
-
-:root {
-    --size-giant: 3rem;
-    --size-big: 2rem;
-    --size-normal: 1rem;
-    --size-small: 0.7rem;
+    --theme-outline: orange solid 2px;
 }
 
 html {
@@ -75,15 +80,50 @@ html {
 button {
     padding: 0;
     border: none;
-    background-color: var(--theme-background);
     cursor: pointer;
 }
 
-dialog:not([open]) {
+/* marking elements when focused (box) */
+button:focus-visible {
+    outline: var(--theme-outline);
+}
+
+input:focus-visible {
+    outline: var(--theme-outline);
+}
+
+textarea:focus-visible {
+    outline: var(--theme-outline);
+}
+
+select:focus-visible {
+    outline: var(--theme-outline);
+}
+
+/* "classic" button */
+.todo-button {
+    margin-left: 1rem;
+    height: 1.7rem;
+    width: 7rem;
+    color: var(--theme-font-header);
+    background-color: var(--theme-background-header);
+    border-radius: 1rem;
+    font-size: 0.8rem;
+}
+
+.todo-button:hover {
+    background-color: var(--theme-button-hover);
+}
+
+/* ------------------------------------------------------------------
+ * Info Dialog
+ * ------------------------------------------------------------------
+ */
+.todo-info-dialog:not([open]) {
     display: none;
 }
 
-dialog[open] {
+.todo-info-dialog[open] {
     position: fixed;
     left: 50%;
     top: 20%;
@@ -99,80 +139,32 @@ dialog[open] {
     box-shadow: var(--theme-shadow);
 }
 
-dialog button {
-    justify-self: end;
-    align-self: end;
-    margin-top: 0.7rem;
-}
-
-dialog::backdrop {
+.todo-info-dialog::backdrop {
     background: rgba(50% 50% 50% / 50%);
 }
 
-dialog h1 {
+.todo-info-dialog h1 {
     font-size: 1.5rem;
     font-weight: bold;
     height: 2rem;
 }
 
-dialog p {
+.todo-info-dialog p {
     margin-top: 0.7rem;
     margin-bottom: 0.7rem;
     font-size: 1rem;
 }
 
-button:focus-visible {
-    outline: var(--theme-outline);
+.todo-info-dialog button {
+    justify-self: end;
+    align-self: end;
+    margin-top: 0.7rem;
 }
 
-svg {
-    background-color: inherit;
-    pointer-events: none;
-}
-
-select {
-    appearance: none;
-    font-family: inherit;
-    font-size: inherit;
-    font-style: italic;
-    color: var(--theme-background-header);
-    background: var(--theme-background);
-    border-color: var(--theme-background);
-    cursor: pointer;
-}
-
-select:focus-visible {
-    outline: var(--theme-outline);
-}
-
-select:hover {
-    font-weight: bold;
-    color: var(--theme-font);
-}
-
-input:focus-visible {
-    outline: var(--theme-outline);
-}
-
-textarea:focus-visible {
-    outline: var(--theme-outline);
-}
-
-.todo-button {
-    margin-left: 1rem;
-    height: 1.7rem;
-    width: 7rem;
-    color: var(--theme-font-header);
-    background-color: var(--theme-background-header);
-    border: none;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-}
-
-.todo-button:hover {
-    background-color: var(--theme-button-hover);
-}
-
+/* ------------------------------------------------------------------
+ * Header
+ * ------------------------------------------------------------------
+ */
 .todo-header-view {
     position: fixed;
     left: 0;
@@ -194,6 +186,7 @@ textarea:focus-visible {
 }
 
 .todo-header-view button {
+    padding: 0;
     justify-self: end;
     background-color: inherit;
     color: var(--theme-font-header);
@@ -211,6 +204,10 @@ textarea:focus-visible {
     display: var(--theme-button-theme-dark);
 }
 
+/* ------------------------------------------------------------------
+ * Item List View
+ * ------------------------------------------------------------------
+ */
 .todo-list-view {
     position: relative;
     top: 6rem;
@@ -232,11 +229,20 @@ textarea:focus-visible {
     background: var(--theme-background);
 }
 
-.todo-action-bar-container button {
-    padding: 0;
-    border: none;
-    background-color: var(--theme-background);
+.todo-action-bar-container select {
+    appearance: none;
+    font-family: inherit;
+    font-size: inherit;
+    font-style: italic;
+    color: var(--theme-background-header);
+    background: var(--theme-background);
+    border-color: var(--theme-background);
     cursor: pointer;
+}
+
+.todo-action-bar-container select:hover {
+    font-weight: bold;
+    color: var(--theme-font);
 }
 
 .todo-btn-sort-dir {
@@ -244,6 +250,7 @@ textarea:focus-visible {
     font-size: inherit;
     font-style: italic;
     color: var(--theme-background-header);
+    background-color: inherit;
 }
 
 .todo-btn-sort-dir:hover {
@@ -254,18 +261,23 @@ textarea:focus-visible {
 .todo-btn-add-new {
     justify-self: end;
     color: var(--theme-background-header);
+    background-color: inherit;
 }
 
 .todo-btn-add-new:hover {
-    justify-self: end;
+    font-weight: bold;
     color: var(--theme-font);
 }
 
+/* ------------------------------------------------------------------
+ * Item List Entry (Note)
+ * ------------------------------------------------------------------
+ */
 .todo-item-list-entry-container {
     padding: 20px;
     margin: 20px;
     display: grid;
-    grid-template-columns: 5rem auto 2rem 2rem;
+    grid-template-columns: 5rem auto 3rem 2rem;
     grid-template-rows: 1rem 1rem 1rem;
     height: 3rem;
     color: var(--theme-font-item);
@@ -296,6 +308,10 @@ textarea:focus-visible {
     background-color: var(--theme-background-prio-1);
 }
 
+.todo-item-list-entry-container[data-done="yes"] {
+    background-color: var(--theme-background-prio-x-done);
+}
+
 .todo-item-list-entry-container:hover {
     background-color: var(--theme-background-prio-x-hover);
 }
@@ -315,12 +331,25 @@ textarea:focus-visible {
     font-weight: bold;
 }
 
-.todo-item-list-entry-done {
+.todo-item-list-entry-done-text {
     grid-row: 1;
-    grid-column: 3 / span 2;
+    grid-column: 3;
+    align-self: center;
+    justify-self: end;
+    font-size: 0.7rem;
+}
+
+.todo-item-list-entry-done-tick {
+    grid-row: 1;
+    grid-column: 4;
     align-self: start;
     justify-self: end;
     font-size: 0.7rem;
+    background-color: inherit;
+}
+
+.todo-item-list-entry-done-tick[data-tick="yes"] {
+    color: var(--theme-font-disabled);
 }
 
 .todo-item-list-entry-priority {
@@ -367,6 +396,7 @@ textarea:focus-visible {
     grid-column: 4;
 }
 
+/* show edit and display when hover */
 .todo-item-list-entry-container:hover .todo-item-list-entry-btn {
     display: inline;
 }
@@ -383,6 +413,10 @@ textarea:focus-visible {
     font-style: italic;
 }
 
+/* ------------------------------------------------------------------
+ * Edit View
+ * ------------------------------------------------------------------
+ */
 .todo-edit-view {
     position: fixed;
     overflow: hidden;
@@ -478,6 +512,10 @@ textarea:focus-visible {
     height: 3rem;
 }
 
+/* ------------------------------------------------------------------
+ * Footer
+ * ------------------------------------------------------------------
+ */
 .todo-footer {
     display: grid;
     grid-template-columns: auto 10rem;
@@ -499,13 +537,17 @@ textarea:focus-visible {
     font-weight: bold;
 }
 
-.todo-system-failure {
+/* ------------------------------------------------------------------
+ * System Failure View
+ * ------------------------------------------------------------------
+ */
+.todo-system-failure-view {
     display: none;
     justify-content: center;
     color: red;
 }
 
-.todo-system-failure div {
+.todo-system-failure-view div {
     justify-self: center;
     font-size: 3rem;
     font-style: italic;

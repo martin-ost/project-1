@@ -6,6 +6,8 @@ Bedienoberfläche
 
 Implementierung
 
+Unterstütze Plattformen 
+
 Inbetriebnahme
 
 | Befehl  |  Beschreibung |

@@ -18,7 +18,11 @@
 
     <script data-id="todo-item-list-template" type="text/x-handlebars-template">
         {{#each this}}
-            <section class="todo-item-list-entry-container" data-prio="{{priority}}">
+            {{#if done}}
+                <section class="todo-item-list-entry-container" data-prio="{{priority}}" data-done="yes">
+            {{^}}
+                <section class="todo-item-list-entry-container" data-prio="{{priority}}">
+            {{/if}}
                 <div class="todo-item-list-entry-due-date">
                     {{print_due_date this.dueDate}}
                 </div>
@@ -26,15 +30,21 @@
                 <div class="todo-item-list-entry-name">
                     {{name}}
                 </div>
-                <div class="todo-item-list-entry-done">
-                    {{#if done}}
-                        <label for="done-{{_id}}">Erledigt</label>
-                        <input type="checkbox" id="done-{{id}}" name="done" disabled="disabled" checked>
-                    {{^}}
-                        <label for="done-{{_id}}">Pendent</label>
-                        <input type="checkbox" id="done-{{_id}}" data-id="{{_id}}" name="done">
-                    {{/if}}
-                </div>
+                {{#if done}}
+                    <div class="todo-item-list-entry-done-text">Erledigt</div>
+                    <button class="todo-item-list-entry-done-tick" data-tick="yes">
+                        <svg viewBox="0 0 48 48" width="20" height="20">
+                            <use href="/styles/icons.svg#done"></use>
+                        </svg>
+                    </button>
+                {{^}}
+                    <div class="todo-item-list-entry-done-text">Pendent</div>
+                    <button class="todo-item-list-entry-done-tick" data-id="{{_id}}" data-click="done">
+                        <svg viewBox="0 0 48 48" width="20" height="20">
+                            <use href="./styles/icons.svg#open"></use>
+                        </svg>
+                    </button>
+                {{/if}}
                 <div class="todo-item-list-entry-priority">
                     {{print_priority this.priority}}
                 </div>
@@ -68,7 +78,7 @@
 
 <body>
 
-<dialog data-id="todo-info-container">
+<dialog class="todo-info-dialog" data-id="todo-info-container">
     <h1>Todo Web-Applikation</h1>
     <p>Diese Web-Applikation ist als Projektarbeit im Rahmen des CAS Frontend Engineering 2022 entstanden.</p>
     <p>Author: Martin Frey / martin.frey@ost.ch</p>
@@ -172,7 +182,7 @@
     </section>
 </footer>
 
-<section class="todo-system-failure" data-id="todo-system-failure-container" >
+<section class="todo-system-failure-view" data-id="todo-system-failure-container" >
     <svg viewBox="0 0 48 48" width="500" height="500">
         <use href="/styles/icons.svg#failure"></use>
     </svg>

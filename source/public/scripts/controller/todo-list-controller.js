@@ -94,33 +94,28 @@ export default class TodoListController {
     }
 
     /**
-     * Edit or delete item.
-     * On delete, remove item on backend as well and re-render item list view.
-     * Callback for edit and delete button of an item, that is part of the item list.
+     * Edit, delete or set time to done.
+     * On delete, remove item on backend and re-render item list view.
+     * On done, set time to done and re-render item list view.
+     * Item cannot be undone in list item view, but only in edit view.
+     * Callback for edit, delete and done button of an item, that is part of the item list.
      */
     async _onItemClick(event) {
         try {
             if (event.target.dataset.click === 'edit') {
                 this._mainCtrl.displayEditView(event.target.dataset.id);
-            } else if (event.target.dataset.click === 'delete') {
+            }
+            else if (event.target.dataset.click === 'delete') {
                 const rev = await TodoService.deleteNoteById(event.target.dataset.id);
                 this._mainCtrl.setRevision(rev);
                 this.render();
             }
+            else if (event.target.dataset.click === 'done') {
+                await TodoService.updateNote({_id: event.target.dataset.id, done: true});
+                this.render();
+            }
         } catch (err) {
             this._mainCtrl.screech("Could not delete note", err);
-        }
-    }
-
-    /**
-     * Set note to "done", save new state on backend and re-render item list view.
-     */
-    async _onDoneChange(event) {
-        try {
-            await TodoService.updateNote({_id: event.target.dataset.id, done: true});
-            this.render();
-        } catch (err) {
-            this._mainCtrl.screech("Could not update note", err);
         }
     }
 
@@ -130,7 +125,6 @@ export default class TodoListController {
         this._filterSel.addEventListener('change', (event) => { this._onFilterChange(event); });
         this._addNewBtn.addEventListener('click', (event) => { this._onAddNewClick(event); });
         this._itemListContainer.addEventListener('click', (event) => { this._onItemClick(event); });
-        this._itemListContainer.addEventListener('change', (event) => { this._onDoneChange(event); });
         this._itemListCtrl.init();
         this._setSortDir();
         this.display()

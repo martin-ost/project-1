@@ -148,6 +148,7 @@ export default class TodoMainController {
     screech(msg, err) {
         clearInterval(this._revisionCheckHdlr);
         this._curCtrl.hide();
+        this._infoDlg.close();
         this._headerContainer.style.display = 'none';
         this._footerContainer.style.display = 'none';
         this._errorContainer.style.display = 'grid';
