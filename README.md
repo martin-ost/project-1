@@ -8,10 +8,6 @@ CAS FEE 2022 / Martin Frey / 2022-06-25
 4. [Umgebung](#Umgebung)
 5. [Inbetriebnahme](#Inbetriebnahme)
 
-## Example
-## Example2
-## Third Example
-
 ## Leistungsmerkmale
 
 Die aktuelle Version unterstützt folgende Funktionen:
