@@ -37,6 +37,7 @@ Folgende Funktionen stehen nicht zur Verfügung:
 - Abspeichern der Benutzereinstellungen auf dem Client
 - Unterstützung für mehrere Sprachen und Regionen
 - HTTPS
+- Write-trough Cache für die Zugriffsoptimierung auf das Backend
 - ...
 
 ## Bedienoberfläche
@@ -79,6 +80,9 @@ Header, Action-Bar und Footer werden fix dargestellt, für die Pendenzen wird ei
 ## Implementierung
 
 ![UMD Diagram Frontend / Backend](./doc/CAS-FEE-2022-Project-1-Blue-Print-2022-06-07.png)
+
+Aktuell wird bei einer Änderung (add, update oder delete) der gesamte Datenstamm erneut vom Backend geladen,
+d.h. es ist kein lokaler (write-trough)-Cache auf dem Frontend vorhanden.
 
 ## Umgebung 
 

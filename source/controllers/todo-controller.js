@@ -9,9 +9,9 @@ import { todoStore } from '../services/todo-store.js'
  * The front controller class:
  *
  * - receives requests from the frontend (via express framework),
- * - processes them (asking storage),
+ * - processes them (accessing storage),
  * - handles errors,
- * - and returns the result as a response.
+ * - and returns the result as response.
  *
  * If the data storage reports an error (exception), the status code of the response is set to 500 and returns an error
  * message, describing the issue in more detail.

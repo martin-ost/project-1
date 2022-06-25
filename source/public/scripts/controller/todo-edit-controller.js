@@ -10,7 +10,7 @@ import TodoService from '../service/todo-service.js';
  * The edit view controller class:
  *
  * - controls all UI elements of the edit view,
- * - and validate user input (only "name" needs to be validated).
+ * - and validates the user input (only "name" needs to be validated).
  */
 export default class TodoEditController {
 
@@ -35,7 +35,7 @@ export default class TodoEditController {
     }
 
     /**
-     * Reset edit form to initial (for updated note) or default data (for new note).
+     * Reset edit form to initial (for updated/existing note) or default data (for new note).
      * Callback for reset button.
      */
     async _onResetClick() {
@@ -59,7 +59,7 @@ export default class TodoEditController {
 
     /**
      * Save data on backend and returns to list view.
-     * The input data is validated before saving, stay in edit view on failed validation.
+     * The input data is validated before saving, but stays in edit view if validation failed.
      * Callback for save button.
      */
     async _onSaveClick() {
