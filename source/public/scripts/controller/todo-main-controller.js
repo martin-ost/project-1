@@ -84,8 +84,7 @@ export default class TodoMainController {
             const revision = await TodoService.getRevision();
             if (this._curRev !== revision) {
                 this._curRev = revision;
-                if (this._curCtrl === this._listCtrl) // only update if list view is currently shown
-                    await this._listCtrl.render();
+                await this._listCtrl.render();
             }
         } catch(err) {
             this.screech("Could not get revision.", err);
